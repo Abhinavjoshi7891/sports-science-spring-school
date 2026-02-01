@@ -88,39 +88,68 @@ const INITIAL_SPEAKERS: Speaker[] = [
 
 const INITIAL_SYLLABUS: SyllabusModule[] = [
   {
-    id: 'M101',
-    title: 'Foundations of Biomechanics',
-    lead: 'Dr. Rajesh Kumar',
-    time: 'Day 1 • 09:00 - 17:00',
-    topics: ['Incorporating Technology in Sports', 'Exercise Physiology and Role of Sensing', 'Sensing Muscle Function - EMG and Ultrasound', 'Application in practice - GPS']
+    id: 'D1',
+    title: 'Biosensing in Sport & Exercise 1',
+    lead: 'Brig. Bibhu Nayak, Dr. Subhra Chatterjee, Prof. Biswarup Mukherjee',
+    time: 'Day 1 • 2nd March, Monday',
+    topics: [
+      'Welcome Note: Dean, International Relations, IIT Delhi',
+      'Pushing the Boundaries: Incorporating Technology in Sports',
+      'Exercise Physiology and Role of Sensing',
+      'Sensing Muscle Function: EMG and Ultrasound',
+      'Application in practice: GPS and Data Analytics'
+    ]
   },
   {
-    id: 'M102',
-    title: 'Data Acquisition & Sensor Technology',
-    lead: 'Prof. Sarah Jenkins',
-    time: 'Day 2 • 09:00 - 17:00',
-    topics: ['Evidence and Technology based Approach to Sports Nutrition', 'Biosensing based insights into exercise', 'Physical performance in the heat', 'Role of Technology for Parasports']
+    id: 'D2',
+    title: 'Biosensing in Sport & Exercise 2',
+    lead: 'Prof. Joanna Bowtell, Dr. Chris Byrne, Mr. Manish Rana',
+    time: 'Day 2 • 3rd March, Tuesday',
+    topics: [
+      'Evidence and Technology-based Approach to Sports Nutrition',
+      'Insights into Performance in the Heat',
+      'Role of Technology for Parasports',
+      'Up-close with a coach: Technology Integration',
+      'GPS best practices: Case studies and Real-world Data'
+    ]
   },
   {
-    id: 'A201',
-    title: 'Artificial Intelligence in Kinematics',
-    lead: 'Dr. Emily Chen',
-    time: 'Day 3 • 09:00 - 17:00',
-    topics: ['Introduction to AI and ML in Sports', 'Applied Data Science in Sports', 'Predictive Modelling for Injury Prevention', 'Computer Vision in Motion Analysis']
+    id: 'D3',
+    title: 'Holi Break & Networking',
+    lead: 'Program Faculty & IIT Delhi',
+    time: 'Day 3 • 4th March, Wednesday',
+    topics: [
+      'No sessions scheduled (Holi Festival Holiday)',
+      'Evening Networking Event at IIT Delhi',
+      'Faculty Dinner and Informal Networking',
+      'Cultural celebration and interaction'
+    ]
   },
   {
-    id: 'L301',
-    title: 'Laboratory: Applied Motion Analysis',
-    lead: 'Faculty Staff',
-    time: 'Day 4 • 09:00 - 16:00',
-    topics: ['Hands on Demo: Motion capture (Sponsored by Nokov)', 'Hands on Demo: Wireless EMG data processing', 'Muscle oximetry, biomechanics (Delsys, Vo2Master)', 'VR Environment design basic game design']
+    id: 'D4',
+    title: 'Performance Psychology & AR/VR',
+    lead: 'Prof. Mark Wilson, Prof. Deepak Joshi, Prof. Shahid Malik',
+    time: 'Day 4 • 5th March, Thursday',
+    topics: [
+      'Sports Wearables: Neural technologies (EEG and fNIRs)',
+      'AR and VR technologies for sports training',
+      'Hands-on VR: Environment and Game Design',
+      'Role of Simulation and Modeling in Sports',
+      'Athlete Stress Management: Psychology & Tech Interventions'
+    ]
   },
   {
-    id: 'C400',
-    title: 'Capstone Project & Colloquium',
-    lead: 'Guest Speakers',
-    time: 'Day 5 • 10:00 - 14:00',
-    topics: ['Group Project Presentations', 'Panel Discussion with Industry Experts', 'Certification Ceremony', 'Networking Lunch']
+    id: 'D5',
+    title: 'AI, ML and Data Science',
+    lead: 'Prof. Biswarup Mukherjee, Prof. Deepak Joshi, James Rhodes',
+    time: 'Day 5 • 6th March, Friday',
+    topics: [
+      'Introduction to AI and ML Applications in Sports',
+      'Applied Data Science for High Performance',
+      'Demo: Motion capture and Modelling (Powered by Nokov)',
+      'Demo: Wireless EMG and Muscle Oximetry processing',
+      'Conclusion, Wrap-up and Certification'
+    ]
   },
 ];
 
@@ -136,7 +165,7 @@ const App: React.FC = () => {
   });
 
   const [syllabus, setSyllabus] = useState<SyllabusModule[]>(() => {
-    const saved = localStorage.getItem('syllabus');
+    const saved = localStorage.getItem('syllabus_v2');
     return saved ? JSON.parse(saved) : INITIAL_SYLLABUS;
   });
 
@@ -154,7 +183,9 @@ const App: React.FC = () => {
     }
     localStorage.setItem('speakers_v4', JSON.stringify(speakers));
   }, [speakers]);
-  useEffect(() => { localStorage.setItem('syllabus', JSON.stringify(syllabus)); }, [syllabus]);
+  useEffect(() => {
+    localStorage.setItem('syllabus_v2', JSON.stringify(syllabus));
+  }, [syllabus]);
   useEffect(() => { localStorage.setItem('leads', JSON.stringify(leads)); }, [leads]);
 
 

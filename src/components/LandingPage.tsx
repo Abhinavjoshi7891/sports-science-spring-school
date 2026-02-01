@@ -303,7 +303,8 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                     <p className="text-sm font-medium opacity-80 uppercase tracking-wider">Programme Fees For Early Birds</p>
                                     <div className="flex items-baseline gap-3">
                                         <span className="text-lg opacity-50 line-through decoration-white/50 font-medium">₹20,000</span>
-                                        <p className="text-2xl font-bold font-display">₹17,000 + GST</p>
+                                        <p className="text-2xl font-bold font-display leading-none">₹17,000 + GST</p>
+                                        <p className="text-xs font-medium text-white/70">+ Accommodation charges</p>
                                     </div>
                                 </div>
                             </div>
