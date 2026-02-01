@@ -38,6 +38,9 @@ const LandingPage: React.FC<LandingPageProps> = ({
     // Syllabus Modal State
     const [activeModule, setActiveModule] = useState<SyllabusModule | null>(null);
 
+    // Mobile Menu State
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     // Speaker Carousel Logic
     const speakerScrollRef = useRef<HTMLDivElement>(null);
 
@@ -132,7 +135,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
 
                     {/* Action Button & Theme Toggle */}
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 md:gap-4">
                         <button
                             onClick={toggleTheme}
                             className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
@@ -142,11 +145,48 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 {theme === 'dark' ? 'light_mode' : 'dark_mode'}
                             </span>
                         </button>
-                        <button onClick={onRegister} className="bg-[#0056b3] text-white px-5 py-2 rounded-md font-bold text-sm hover:bg-[#004494] transition shadow-md whitespace-nowrap">
+                        <button onClick={onRegister} className="hidden sm:block bg-[#0056b3] text-white px-5 py-2 rounded-md font-bold text-sm hover:bg-[#004494] transition shadow-md whitespace-nowrap">
                             Spring School
+                        </button>
+
+                        {/* Mobile Menu Toggle */}
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="lg:hidden p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                        >
+                            <span className="material-symbols-outlined">
+                                {mobileMenuOpen ? 'close' : 'menu'}
+                            </span>
                         </button>
                     </div>
                 </div>
+
+                {/* Mobile Menu Overlay */}
+                {mobileMenuOpen && (
+                    <div className="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-surface-dark border-b border-slate-200 dark:border-border-dark shadow-xl animate-in fade-in slide-in-from-top-4 duration-300">
+                        <div className="flex flex-col p-6 gap-4">
+                            {['Home', 'Research', 'Publication', 'Team', 'Join us', 'Contact'].map((item) => (
+                                <a
+                                    key={item}
+                                    href="#"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="text-lg font-medium text-[#0056b3] dark:text-blue-400 hover:translate-x-2 transition-transform"
+                                >
+                                    {item}
+                                </a>
+                            ))}
+                            <button
+                                onClick={() => {
+                                    setMobileMenuOpen(false);
+                                    onRegister();
+                                }}
+                                className="mt-4 w-full bg-[#0056b3] text-white py-4 rounded-lg font-bold text-lg shadow-lg"
+                            >
+                                Register for Spring School
+                            </button>
+                        </div>
+                    </div>
+                )}
             </nav>
 
             <main className="flex-1 w-full space-y-0 pb-0">
@@ -165,16 +205,29 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent pointer-events-none"></div>
 
                             {/* Top Left Logos Card */}
-                            <div className="absolute top-6 left-6 md:top-10 md:left-10 bg-white rounded-xl py-3 px-6 shadow-xl flex items-center gap-6 z-10 max-w-[90%] flex-wrap">
+                            <div className="absolute top-4 left-4 md:top-10 md:left-10 bg-white/95 backdrop-blur-sm rounded-xl py-2 px-4 md:py-3 md:px-6 shadow-xl flex items-center gap-4 md:gap-6 z-10 max-w-[90vw] flex-wrap justify-center sm:justify-start">
                                 <a href="https://home.iitd.ac.in/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-                                    <img src={iitdLogo} alt="IITD" className="h-12 md:h-14 w-auto object-contain" />
+                                    <img src={iitdLogo} alt="IITD" className="h-8 md:h-14 w-auto object-contain" />
                                 </a>
+                                <div className="w-px h-6 md:h-8 bg-slate-200 hidden sm:block"></div>
                                 <a href="https://www.exeter.ac.uk/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-                                    <img src={exeterLogo} alt="Exeter" className="h-10 md:h-12 w-auto object-contain" />
+                                    <img src={exeterLogo} alt="Exeter" className="h-6 md:h-12 w-auto object-contain" />
                                 </a>
+                                <div className="w-px h-6 md:h-8 bg-slate-200 hidden sm:block"></div>
                                 <a href="https://sportsauthorityofindia.nic.in/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-                                    <img src={saiLogo} alt="SAI" className="h-10 md:h-12 w-auto object-contain" />
+                                    <img src={saiLogo} alt="SAI" className="h-8 md:h-12 w-auto object-contain" />
                                 </a>
+                            </div>
+
+                            {/* Hero Text Overlay for Mobile/Tablet */}
+                            <div className="absolute bottom-20 left-6 right-6 lg:left-12 lg:right-auto lg:top-1/2 lg:bottom-auto lg:-translate-y-1/2 lg:max-w-2xl z-10 pointer-events-none">
+                                <h1 className="text-white font-black leading-tight tracking-tighter text-[min(10vw,4rem)] mb-4 drop-shadow-lg">
+                                    ADVANCED CERTIFICATE IN <br />
+                                    <span className="text-[#c5a059]">SPORTS SCIENCE</span>
+                                </h1>
+                                <p className="text-white/90 text-lg md:text-xl font-medium max-w-xl drop-shadow-md lg:block hidden">
+                                    An intensive residential program for researchers, practitioners, and entrepreneurs at the cutting edge of sports technology.
+                                </p>
                             </div>
                         </div>
 
@@ -206,22 +259,26 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
 
                     {/* Mobile Registration Card (Visible only on small screens) */}
-                    <div className="lg:hidden mt-4">
-                        <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700">
-                            <div className="bg-[#0056b3] dark:bg-[#003366] p-6 text-center">
-                                <h3 className="text-white font-bold text-xl uppercase tracking-wide">Registration Open Now</h3>
+                    <div className="lg:hidden mt-6 relative z-40">
+                        <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700 mx-4">
+                            <div className="bg-[#0056b3] dark:bg-[#003366] p-4 text-center">
+                                <h3 className="text-white font-bold text-lg uppercase tracking-wide">Registration Open</h3>
                             </div>
-                            <div className="p-6">
-                                <button onClick={onRegister} className="w-full bg-[#0056b3] hover:bg-[#004494] text-white font-bold py-3 rounded-lg text-base transition-colors shadow-lg uppercase tracking-wide">
+                            <div className="p-5 space-y-4">
+                                <p className="text-sm text-slate-600 dark:text-slate-400 text-center font-medium">Learn Data Analytics, ML, Biomechanics & more.</p>
+                                <button onClick={onRegister} className="w-full bg-[#0056b3] hover:bg-[#004494] text-white font-bold py-4 rounded-lg text-lg transition-colors shadow-lg uppercase tracking-wide">
                                     Register Now
                                 </button>
+                                <p className="text-[10px] text-center text-[#0056b3] dark:text-blue-300 font-medium">
+                                    Seats Are very Limited
+                                </p>
                             </div>
                         </div>
                     </div>
 
                     {/* Bottom Info Bar - Floating/Overlapping */}
-                    <div className="relative -mt-16 z-30 px-4 lg:px-12 pointer-events-none">
-                        <div className="bg-[#004494] dark:bg-[#003366] rounded-2xl shadow-2xl p-6 lg:py-8 lg:px-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-white pointer-events-auto max-w-[95%] lg:max-w-[85%] mx-auto lg:ml-0">
+                    <div className="relative -mt-10 lg:-mt-16 z-30 px-4 lg:px-12 pointer-events-none">
+                        <div className="bg-[#004494] dark:bg-[#003366] rounded-2xl shadow-2xl p-6 md:p-8 lg:p-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-white pointer-events-auto max-w-full lg:max-w-[85%] mx-auto lg:ml-0">
 
                             {/* Starts */}
                             <div className="flex items-center gap-5">
@@ -462,18 +519,18 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             <p className="text-slate-600 dark:text-slate-400">Our curriculum is delivered by world-renowned academics and industry practitioners.</p>
                         </div>
 
-                        <div className="relative group px-12">
+                        <div className="relative group px-0 md:px-12">
                             {/* Navigation Buttons */}
                             <button
                                 onClick={() => scrollSpeakers('left')}
-                                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
+                                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 hidden md:flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
                             >
                                 <span className="material-symbols-outlined">chevron_left</span>
                             </button>
 
                             <button
                                 onClick={() => scrollSpeakers('right')}
-                                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
+                                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 hidden md:flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
                             >
                                 <span className="material-symbols-outlined">chevron_right</span>
                             </button>
@@ -490,7 +547,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                         href={speaker.link || '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="snap-start shrink-0 w-[280px] block group/card"
+                                        className="snap-start shrink-0 w-[min(75vw,280px)] block group/card"
                                     >
                                         <div className="bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 p-4 shadow-sm hover:shadow-2xl hover:-translate-y-4 hover:scale-[1.02] transition-all duration-500 ease-out h-full rounded-xl relative z-0 hover:z-10">
                                             {/* Image with Grayscale -> Color on Hover */}
@@ -520,7 +577,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             rel="noopener noreferrer"
                             className="block group"
                         >
-                            <div className="bg-white dark:bg-surface-dark p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-border-dark flex flex-col sm:flex-row gap-6 items-start hover:border-[#003366] hover:shadow-2xl hover:-translate-y-4 hover:scale-[1.02] transition-all duration-500 ease-out h-full relative z-0 hover:z-10">
+                            <div className="bg-white dark:bg-surface-dark p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-border-dark flex flex-col sm:flex-row gap-6 items-center sm:items-start hover:border-[#003366] hover:shadow-2xl md:hover:-translate-y-4 md:hover:scale-[1.02] transition-all duration-500 ease-out h-full relative z-0 hover:z-10 text-center sm:text-left">
                                 <img src={profBiswarupImg} alt="Prof Biswarup Mukherjee" className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 dark:border-white/10 grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" />
                                 <div>
                                     <h3 className="text-xl font-bold text-[#003366] dark:text-blue-400 group-hover:underline">Prof. Biswarup Mukherjee</h3>
@@ -538,7 +595,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             rel="noopener noreferrer"
                             className="block group"
                         >
-                            <div className="bg-white dark:bg-surface-dark p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-border-dark flex flex-col sm:flex-row gap-6 items-start hover:border-[#003366] hover:shadow-2xl hover:-translate-y-4 hover:scale-[1.02] transition-all duration-500 ease-out h-full relative z-0 hover:z-10">
+                            <div className="bg-white dark:bg-surface-dark p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-border-dark flex flex-col sm:flex-row gap-6 items-center sm:items-start hover:border-[#003366] hover:shadow-2xl md:hover:-translate-y-4 md:hover:scale-[1.02] transition-all duration-500 ease-out h-full relative z-0 hover:z-10 text-center sm:text-left">
                                 <img src={profDominicImg} alt="Prof Dominic Farris" className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 dark:border-white/10 grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" />
                                 <div>
                                     <h3 className="text-xl font-bold text-[#003366] dark:text-blue-400 group-hover:underline">Prof. Dominic Farris</h3>
