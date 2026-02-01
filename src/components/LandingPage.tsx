@@ -211,7 +211,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 </a>
                                 <div className="w-px h-6 md:h-8 bg-slate-200 hidden sm:block"></div>
                                 <a href="https://www.exeter.ac.uk/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-                                    <img src={exeterLogo} alt="Exeter" className="h-8 md:h-14 w-auto object-contain" />
+                                    <img src={exeterLogo} alt="Exeter" className="h-10 md:h-20 w-auto object-contain" />
                                 </a>
                                 <div className="w-px h-6 md:h-8 bg-slate-200 hidden sm:block"></div>
                                 <a href="https://sportsauthorityofindia.nic.in/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
@@ -372,7 +372,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 <img src={iitdLogo} alt="IITD" className="h-16 w-auto object-contain" />
                             </a>
                             <a href="https://www.exeter.ac.uk/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-                                <img src={exeterLogo} alt="Exeter" className="h-14 w-auto object-contain" />
+                                <img src={exeterLogo} alt="Exeter" className="h-18 md:h-24 w-auto object-contain" />
                             </a>
                             <a href="https://sportsauthorityofindia.nic.in/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
                                 <img src={saiLogo} alt="SAI" className="h-16 w-auto object-contain" />
