@@ -67,12 +67,6 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
             </div>
           </div>
 
-          <div className="mt-auto">
-            <div className="flex items-center gap-3 opacity-60">
-              <span className="material-symbols-outlined text-3xl">verified_user</span>
-              <span className="text-xs leading-tight">Accredited by the<br />National Board of Sports Science</span>
-            </div>
-          </div>
         </div>
       </aside>
 
