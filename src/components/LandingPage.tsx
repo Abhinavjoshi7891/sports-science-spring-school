@@ -70,7 +70,8 @@ const LandingPage: React.FC<LandingPageProps> = ({
                 if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
                     container.scrollTo({ left: 0, behavior: 'smooth' });
                 } else {
-                    container.scrollBy({ left: 300, behavior: 'smooth' });
+                    // Scroll by one card width (300px + 48px gap)
+                    container.scrollBy({ left: 348, behavior: 'smooth' });
                 }
             }
         }, 3000);
@@ -640,12 +641,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                                 <p className="text-sm text-slate-500 dark:text-slate-400 italic leading-tight px-2">{speaker.role}</p>
                                             </div>
 
-                                            {/* Floating Badge for focused item */}
-                                            {focusedSpeakerIdx === idx && (
-                                                <div className="absolute -top-3 -right-3 bg-accent text-primary text-[10px] font-black px-3 py-1 rounded-full shadow-lg animate-bounce uppercase tracking-tighter">
-                                                    distinguished
-                                                </div>
-                                            )}
                                         </div>
                                     </a>
                                 ))}
