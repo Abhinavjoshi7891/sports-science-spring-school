@@ -219,13 +219,14 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 </a>
                             </div>
 
-                            {/* Hero Text Overlay for Mobile/Tablet */}
-                            <div className="absolute bottom-20 left-6 right-6 lg:left-12 lg:right-auto lg:top-1/2 lg:bottom-auto lg:-translate-y-1/2 lg:max-w-2xl z-10 pointer-events-none">
-                                <h1 className="text-white font-black leading-tight tracking-tighter text-[min(10vw,4rem)] mb-4 drop-shadow-lg">
-                                    SPRING SCHOOL IN SPORTS TECHNOLOGY, <br />
-                                    <span className="text-[#c5a059]">MACHINE LEARNING AND DATA ANALYTICS</span>
+                            {/* Hero Text Overlay Case */}
+                            <div className="absolute bottom-24 left-6 right-6 lg:left-12 lg:right-auto lg:top-1/2 lg:bottom-auto lg:-translate-y-1/2 lg:max-w-xl z-10 pointer-events-none">
+                                <h1 className="text-white font-black leading-[1.1] tracking-tight text-[min(7vw,2.5rem)] mb-6 drop-shadow-lg">
+                                    SPRING SCHOOL IN <br />
+                                    SPORTS TECHNOLOGY, <br />
+                                    <span className="text-[#c5a059]">MACHINE LEARNING AND <br /> DATA ANALYTICS</span>
                                 </h1>
-                                <p className="text-white/90 text-lg md:text-xl font-medium max-w-xl drop-shadow-md lg:block hidden">
+                                <p className="text-white/90 text-lg md:text-xl font-medium max-w-lg drop-shadow-md lg:block hidden">
                                     An intensive residential program for researchers, practitioners, and entrepreneurs at the cutting edge of sports technology.
                                 </p>
                             </div>
