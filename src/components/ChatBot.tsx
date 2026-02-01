@@ -59,19 +59,17 @@ const ChatBot: React.FC = () => {
       if (apiKey) {
         const ai = new GoogleGenAI({ apiKey });
 
-        const history = messages.map(m => `${m.role === 'user' ? 'Candidate' : 'Admissions'}: ${m.text}`).join('\n');
-        const prompt = `${history}\nCandidate: ${userMsg.text}\nAdmissions:`;
+        const history = messages.map(m => `${m.role === 'user' ? 'Candidate' : 'Admissions Assistant'}: ${m.text}`).join('\n');
+        const prompt = `${SYSTEM_INSTRUCTION}\n\n${history}\nCandidate: ${userMsg.text}\nAdmissions Assistant:`;
 
-        const response: GenerateContentResponse = await ai.models.generateContent({
-          model: 'gemini-3-flash-preview',
-          contents: prompt,
-          config: {
-            systemInstruction: SYSTEM_INSTRUCTION,
-          }
+        const response = await ai.models.generateContent({
+          model: 'gemini-1.5-flash',
+          contents: [{ role: 'user', parts: [{ text: prompt }] }]
         });
 
-        if (response.text) {
-          responseText = response.text;
+        const content = (response as any).choices?.[0]?.message?.content || (response as any).text;
+        if (content) {
+          responseText = content;
         }
       }
 
@@ -146,8 +144,8 @@ const ChatBot: React.FC = () => {
                   )}
                   <div className={`flex flex-col gap-2 max-w-[85%] ${msg.role === 'user' ? 'items-end' : ''}`}>
                     <div className={`p-3.5 shadow-sm border ${msg.role === 'user'
-                        ? 'bg-primary text-white border-primary rounded-t-lg rounded-bl-lg'
-                        : 'bg-white dark:bg-surface-dark border-slate-200 dark:border-border-dark text-slate-800 dark:text-slate-200 rounded-t-lg rounded-br-lg'
+                      ? 'bg-primary text-white border-primary rounded-t-lg rounded-bl-lg'
+                      : 'bg-white dark:bg-surface-dark border-slate-200 dark:border-border-dark text-slate-800 dark:text-slate-200 rounded-t-lg rounded-br-lg'
                       }`}>
                       <p className="text-sm leading-relaxed whitespace-pre-wrap font-serif">{msg.text}</p>
                     </div>
