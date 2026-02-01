@@ -11,7 +11,7 @@ import drManishImg from './assets/images/Dr-Manish-Rana-Paralympic-Committee-of-
 import drShatarupaImg from './assets/images/Dr-Shatarupa-Chakraborty-NCSSR-SAI.png';
 import drSubhraImg from './assets/images/Dr-Subhra-Chatterjee-NCSSR-SAI.png';
 import drTimImg from './assets/images/Dr-Tim-Podlogar-University-of-Exeter.png';
-import jamesRhodesImg from './assets/images/James-Rhodes-Data Scientist-University-of-Exeter.png';
+import jamesRhodesImg from './assets/images/James-Rhodes.jpeg';
 import manikandanImg from './assets/images/Mr-Manikandan-TAs-at-IIT-Delhi.png';
 import nikhilImg from './assets/images/Mr-Nikhil-Chowdhary-TAs-at-IIT-Delhi.png';
 import sankarImg from './assets/images/Mr-Sankar-Balasubramanian-IISC.png';
@@ -131,7 +131,7 @@ const App: React.FC = () => {
   // -- Data State (Mocking a Database) --
   // We use localStorage to persist changes made in the Admin Panel
   const [speakers, setSpeakers] = useState<Speaker[]>(() => {
-    const saved = localStorage.getItem('speakers_v3');
+    const saved = localStorage.getItem('speakers_v4');
     return saved ? JSON.parse(saved) : INITIAL_SPEAKERS;
   });
 
@@ -147,12 +147,12 @@ const App: React.FC = () => {
 
   // Save to local storage whenever data changes
   useEffect(() => {
-    // Force refresh if the data is outdated (checking for Nikhil's link as a proxy)
-    const isOutdated = !speakers.some(s => s.name === 'Mr. Nikhil Chowdhary' && s.link?.includes('nikhil-chowdhary'));
+    // Force refresh if the data is outdated (checking for James Rhodes' FA org)
+    const isOutdated = !speakers.some(s => s.name === 'James Rhodes' && s.org === 'THE FOOTBALL ASSOCIATION');
     if (isOutdated) {
       setSpeakers(INITIAL_SPEAKERS);
     }
-    localStorage.setItem('speakers_v3', JSON.stringify(speakers));
+    localStorage.setItem('speakers_v4', JSON.stringify(speakers));
   }, [speakers]);
   useEffect(() => { localStorage.setItem('syllabus', JSON.stringify(syllabus)); }, [syllabus]);
   useEffect(() => { localStorage.setItem('leads', JSON.stringify(leads)); }, [leads]);
