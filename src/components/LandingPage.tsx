@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ChatBot from './ChatBot';
 import { Speaker, SyllabusModule } from '../App';
 import confetti from 'canvas-confetti';
@@ -41,13 +41,17 @@ const LandingPage: React.FC<LandingPageProps> = ({
     // Mobile Menu State
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+    // Focused Speaker State for Carousel Effect
+    const [focusedSpeakerIdx, setFocusedSpeakerIdx] = useState(0);
+    const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+
     // Speaker Carousel Logic
     const speakerScrollRef = useRef<HTMLDivElement>(null);
 
     const scrollSpeakers = (direction: 'left' | 'right') => {
         if (speakerScrollRef.current) {
             const container = speakerScrollRef.current;
-            const scrollAmount = 300; // Adjusted for better physics
+            const scrollAmount = container.offsetWidth * 0.8;
             if (direction === 'left') {
                 container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
             } else {
@@ -55,6 +59,57 @@ const LandingPage: React.FC<LandingPageProps> = ({
             }
         }
     };
+
+    // Auto-scroll logic for Speakers
+    useEffect(() => {
+        if (!isAutoScrolling || !speakerScrollRef.current) return;
+
+        const interval = setInterval(() => {
+            const container = speakerScrollRef.current;
+            if (container) {
+                if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
+                    container.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    container.scrollBy({ left: 300, behavior: 'smooth' });
+                }
+            }
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [isAutoScrolling]);
+
+    // Intersection logic to detect "focused" speaker in the middle
+    useEffect(() => {
+        const container = speakerScrollRef.current;
+        if (!container) return;
+
+        const handleScroll = () => {
+            const cards = container.querySelectorAll('.speaker-card');
+            const containerCenter = container.getBoundingClientRect().left + container.offsetWidth / 2;
+
+            let closestIdx = 0;
+            let minDistance = Infinity;
+
+            cards.forEach((card, idx) => {
+                const rect = card.getBoundingClientRect();
+                const cardCenter = rect.left + rect.width / 2;
+                const distance = Math.abs(containerCenter - cardCenter);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestIdx = idx;
+                }
+            });
+
+            setFocusedSpeakerIdx(closestIdx);
+        };
+
+        container.addEventListener('scroll', handleScroll, { passive: true });
+        // Initial check
+        setTimeout(handleScroll, 100);
+
+        return () => container.removeEventListener('scroll', handleScroll);
+    }, []);
 
     // Certificate Tilt & Confetti Logic
     const [certStyle, setCertStyle] = useState<React.CSSProperties>({});
@@ -537,10 +592,11 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 <span className="material-symbols-outlined">chevron_right</span>
                             </button>
 
-                            {/* Carousel Container */}
                             <div
                                 ref={speakerScrollRef}
-                                className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 scrollbar-hide scroll-smooth"
+                                onMouseEnter={() => setIsAutoScrolling(false)}
+                                onMouseLeave={() => setIsAutoScrolling(true)}
+                                className="flex gap-12 overflow-x-auto snap-x snap-mandatory pb-16 pt-8 scrollbar-hide scroll-smooth px-[20%] md:px-[35%]"
                                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                             >
                                 {speakers.map((speaker, idx) => (
@@ -549,18 +605,47 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                         href={speaker.link || '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="snap-start shrink-0 w-[min(75vw,280px)] block group/card"
+                                        className={`snap-center shrink-0 w-[min(75vw,300px)] block group/card transition-all duration-500 speaker-card ${focusedSpeakerIdx === idx
+                                            ? 'scale-110 z-20'
+                                            : 'scale-90 opacity-60 grayscale blur-[1px]'
+                                            }`}
                                     >
-                                        <div className="bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 p-4 shadow-sm hover:shadow-2xl hover:-translate-y-4 hover:scale-[1.02] transition-all duration-500 ease-out h-full rounded-xl relative z-0 hover:z-10">
-                                            {/* Image with Grayscale -> Color on Hover */}
-                                            <div className="aspect-[4/5] w-full overflow-hidden bg-slate-200 dark:bg-slate-800 mb-5 grayscale group-hover/card:grayscale-0 transition-all duration-700 rounded-lg">
-                                                <img src={speaker.img} alt={speaker.name} className="h-full w-full object-cover transition-transform duration-700 group-hover/card:scale-110" />
+                                        <div className={`bg-white dark:bg-surface-dark border p-5 shadow-sm transition-all duration-500 ease-out h-full rounded-2xl relative ${focusedSpeakerIdx === idx
+                                            ? 'border-primary dark:border-accent shadow-[0_0_30px_rgba(0,86,179,0.3)] dark:shadow-[0_0_30px_rgba(197,160,89,0.2)]'
+                                            : 'border-slate-100 dark:border-slate-800'
+                                            }`}>
+                                            {/* Image with Dynamic Effects */}
+                                            <div className="aspect-[4/5] w-full overflow-hidden bg-slate-200 dark:bg-slate-800 mb-6 rounded-xl shadow-inner relative overflow-hidden">
+                                                <img
+                                                    src={speaker.img}
+                                                    alt={speaker.name}
+                                                    className={`h-full w-full object-cover transition-all duration-700 ${focusedSpeakerIdx === idx ? 'scale-110 rotate-1' : 'scale-100'
+                                                        }`}
+                                                />
+                                                {focusedSpeakerIdx === idx && (
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"></div>
+                                                )}
                                             </div>
-                                            <div className="text-left">
-                                                <h3 className="text-lg font-display font-bold text-[#003366] dark:text-white mb-1 group-hover/card:text-[#0056b3] dark:group-hover/card:text-blue-400 transition-colors leading-tight">{speaker.name}</h3>
-                                                <p className="text-[10px] uppercase tracking-widest text-[#c5a059] font-bold mb-1">{speaker.org}</p>
-                                                <p className="text-sm text-slate-500 dark:text-slate-400 italic leading-tight">{speaker.role}</p>
+                                            <div className="text-center">
+                                                <h3 className={`text-xl font-display font-bold mb-1 transition-colors leading-tight ${focusedSpeakerIdx === idx ? 'text-primary dark:text-accent' : 'text-slate-400 dark:text-slate-500'
+                                                    }`}>
+                                                    {speaker.name}
+                                                </h3>
+                                                <p className={`text-xs uppercase tracking-widest font-black mb-2 transition-opacity ${focusedSpeakerIdx === idx ? 'text-[#c5a059] opacity-100' : 'text-slate-400 opacity-60'
+                                                    }`}>
+                                                    {speaker.org}
+                                                </p>
+                                                <div className={`h-1 w-12 bg-[#c5a059] mx-auto mb-3 rounded-full transition-all duration-500 ${focusedSpeakerIdx === idx ? 'w-20 opacity-100' : 'w-0 opacity-0'
+                                                    }`}></div>
+                                                <p className="text-sm text-slate-500 dark:text-slate-400 italic leading-tight px-2">{speaker.role}</p>
                                             </div>
+
+                                            {/* Floating Badge for focused item */}
+                                            {focusedSpeakerIdx === idx && (
+                                                <div className="absolute -top-3 -right-3 bg-accent text-primary text-[10px] font-black px-3 py-1 rounded-full shadow-lg animate-bounce uppercase tracking-tighter">
+                                                    distinguished
+                                                </div>
+                                            )}
                                         </div>
                                     </a>
                                 ))}
