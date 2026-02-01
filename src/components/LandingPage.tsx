@@ -211,7 +211,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 </a>
                                 <div className="w-px h-6 md:h-8 bg-slate-200 hidden sm:block"></div>
                                 <a href="https://www.exeter.ac.uk/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-                                    <img src={exeterLogo} alt="Exeter" className="h-6 md:h-12 w-auto object-contain" />
+                                    <img src={exeterLogo} alt="Exeter" className="h-8 md:h-14 w-auto object-contain" />
                                 </a>
                                 <div className="w-px h-6 md:h-8 bg-slate-200 hidden sm:block"></div>
                                 <a href="https://sportsauthorityofindia.nic.in/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
@@ -222,8 +222,8 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             {/* Hero Text Overlay for Mobile/Tablet */}
                             <div className="absolute bottom-20 left-6 right-6 lg:left-12 lg:right-auto lg:top-1/2 lg:bottom-auto lg:-translate-y-1/2 lg:max-w-2xl z-10 pointer-events-none">
                                 <h1 className="text-white font-black leading-tight tracking-tighter text-[min(10vw,4rem)] mb-4 drop-shadow-lg">
-                                    ADVANCED CERTIFICATE IN <br />
-                                    <span className="text-[#c5a059]">SPORTS SCIENCE</span>
+                                    SPRING SCHOOL IN SPORTS TECHNOLOGY, <br />
+                                    <span className="text-[#c5a059]">MACHINE LEARNING AND DATA ANALYTICS</span>
                                 </h1>
                                 <p className="text-white/90 text-lg md:text-xl font-medium max-w-xl drop-shadow-md lg:block hidden">
                                     An intensive residential program for researchers, practitioners, and entrepreneurs at the cutting edge of sports technology.
@@ -251,7 +251,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                         Register Now
                                     </button>
                                     <p className="text-[10px] text-center text-[#0056b3] dark:text-blue-300 mt-3 font-medium">
-                                        Note: Seats Are very Limited, register as soon as possible
+                                        Limited seats available
                                     </p>
                                 </div>
                             </div>
@@ -270,7 +270,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                     Register Now
                                 </button>
                                 <p className="text-[10px] text-center text-[#0056b3] dark:text-blue-300 font-medium">
-                                    Seats Are very Limited
+                                    Limited seats available
                                 </p>
                             </div>
                         </div>
@@ -326,7 +326,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     <div className="flex flex-col lg:flex-row gap-12 items-center">
                         <div className="flex-1 space-y-6 text-slate-700 dark:text-slate-300 text-lg leading-relaxed text-justify">
                             <p>
-                                The event will be an intensive <strong className="text-black dark:text-white font-bold">in person training</strong> and upskilling opportunity for <strong className="text-black dark:text-white font-bold">sports coaches, physios, fitness professionals, Sports Scientists and Entrepreneurs</strong> who would like to learn about advanced technological and analytics tools for sporting performance assessment and enhancement through interventions in nutrition, physiology, biomechanics and VR.
+                                The event will be an intensive <strong className="text-black dark:text-white font-bold">in-person training</strong> and upskilling opportunity for <strong className="text-black dark:text-white font-bold">sports coaches, physios, fitness professionals, Sports Scientists and Entrepreneurs</strong> who would like to learn about advanced technological and analytics tools for sporting performance assessment and enhancement through interventions in nutrition, physiology, biomechanics and VR.
                             </p>
                             <p>
                                 The event will feature <strong className="text-black dark:text-white font-bold">top faculty</strong> from IIT Delhi, international faculty from University of Exeter and scientists and practitioners from Sports Authority of India.
@@ -388,9 +388,9 @@ const LandingPage: React.FC<LandingPageProps> = ({
                         {/* Top Row: 3 items */}
                         <div className="grid md:grid-cols-3 gap-6">
                             {[
-                                { icon: 'groups', title: 'In Person Training' },
+                                { icon: 'groups', title: 'In-Person Training' },
                                 { icon: 'co_present', title: 'Live Session' },
-                                { icon: 'workspace_premium', title: 'Get Certification Opportunity' },
+                                { icon: 'workspace_premium', title: 'Earn a certificate' },
                             ].map((item, i) => (
                                 <div key={i} className="flex h-full shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 rounded-lg overflow-hidden group">
                                     <div className="w-24 bg-[#0056b3] flex items-center justify-center shrink-0">
@@ -426,7 +426,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                 <section className="bg-[#0056b3] dark:bg-[#003366] py-16 text-white overflow-hidden relative">
                     <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12 relative z-10">
                         <div className="flex-1 text-center md:text-left">
-                            <h2 className="text-3xl font-bold mb-4 uppercase">Get Certificate</h2>
+                            <h2 className="text-3xl font-bold mb-4 uppercase">Earn a certificate</h2>
                             <p className="text-xl font-medium opacity-90 mb-6">Certified by Experts. Recognized by Institutions.</p>
                             <p className="opacity-80 leading-relaxed max-w-xl">
                                 Receive an Official Certificate upon Successful Completion of The Spring School, validating your learning in: Sports Technology, Machine Learning Applications, and Data Analytics in Sports Science.

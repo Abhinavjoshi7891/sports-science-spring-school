@@ -29,7 +29,7 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
             <div className="inline-block border border-accent/50 rounded px-2 py-1 mb-4">
               <span className="text-xs font-bold tracking-widest uppercase text-accent">Spring Semester 2026</span>
             </div>
-            <h1 className="text-3xl lg:text-4xl font-display font-bold leading-tight mb-4 text-white">Advanced Certificate in Sports Science</h1>
+            <h1 className="text-3xl lg:text-4xl font-display font-bold leading-tight mb-4 text-white">Spring School in Sports Technology, Machine Learning and Data Analytics</h1>
             <p className="text-white/70 text-base leading-relaxed font-serif">
               An intensive residential program for researchers and practitioners.
             </p>

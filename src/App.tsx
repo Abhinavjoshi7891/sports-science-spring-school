@@ -61,25 +61,29 @@ export interface Lead {
 // Initial Data
 const INITIAL_SPEAKERS: Speaker[] = [
   { id: '1', name: 'Prof. Deepak Joshi', org: 'CBME, IIT DELHI', role: 'Associate Professor', img: profDeepakJoshiImg, link: 'https://cbme.iitd.ac.in/faculty-profile/15' },
-  { id: '2', name: 'Prof. Mark Wilson', org: 'UNIV. OF EXETER', role: 'Professor of Performance Psychology', img: profMarkImg, link: 'https://experts.exeter.ac.uk/1051-mark-wilson' },
-  { id: '3', name: 'Brig. Bibhu Nayak', org: 'NCSSR, SAI', role: 'Director', img: brigBibhuImg, link: 'https://sportsauthorityofindia.nic.in/' },
-  { id: '4', name: 'Prof. Joanna Bowtell', org: 'UNIV. OF EXETER', role: 'Professor of Applied Physiology', img: profJoannaImg, link: 'https://experts.exeter.ac.uk/20502-joanna-bowtell' },
   { id: '5', name: 'Prof. K. K. Deepak', org: 'IIT DELHI', role: 'Professor of Physiology', img: profKKDeepakImg, link: 'https://cbme.iitd.ac.in/faculty-profile/21' },
-  { id: '6', name: 'Dr. Chris Byrne', org: 'UNIV. OF EXETER', role: 'Associate Professor', img: drChrisImg, link: 'https://experts.exeter.ac.uk/1040-chris-byrne' },
   { id: '7', name: 'Prof. Kaushik Mukherjee', org: 'ME, IIT DELHI', role: 'Associate Professor', img: profKaushikImg, link: 'https://mech.iitd.ac.in/faculty-profile/192' },
-  { id: '8', name: 'Dr. Tim Podlogar', org: 'UNIV. OF EXETER', role: 'Research Fellow & Nutritionist', img: drTimImg, link: 'https://experts.exeter.ac.uk/43996-tim-podlogar' },
   { id: '9', name: 'Prof. Shahid Malik', org: 'CeNSE, IIT DELHI', role: 'Professor', img: profShahidImg, link: 'https://web.iitd.ac.in/~smalik/' },
-  { id: '10', name: 'Dr. Manish Rana', org: 'PCI', role: 'Sports Scientist', img: drManishImg, link: 'https://in.linkedin.com/in/manish-rana' },
+  { id: '19', name: 'Prof. Biswarup Mukherjee', org: 'CBME, IIT DELHI', role: 'Associate Professor', img: profBiswarupImg, link: 'https://cbme.iitd.ac.in/faculty-profile/3' },
+
+  // Exeter Faculty Group
+  { id: '2', name: 'Prof. Mark Wilson', org: 'UNIV. OF EXETER', role: 'Professor of Performance Psychology', img: profMarkImg, link: 'https://experts.exeter.ac.uk/1051-mark-wilson' },
+  { id: '4', name: 'Prof. Joanna Bowtell', org: 'UNIV. OF EXETER', role: 'Professor of Applied Physiology', img: profJoannaImg, link: 'https://experts.exeter.ac.uk/20502-joanna-bowtell' },
+  { id: '6', name: 'Dr. Chris Byrne', org: 'UNIV. OF EXETER', role: 'Associate Professor', img: drChrisImg, link: 'https://experts.exeter.ac.uk/1040-chris-byrne' },
+  { id: '8', name: 'Dr. Tim Podlogar', org: 'UNIV. OF EXETER', role: 'Research Fellow & Nutritionist', img: drTimImg, link: 'https://experts.exeter.ac.uk/43996-tim-podlogar' },
+  { id: '13', name: 'James Rhodes', org: 'THE FOOTBALL ASSOCIATION', role: 'Data Scientists', img: jamesRhodesImg, link: 'https://www.linkedin.com/in/james-rhodes-05248546/?originalSubdomain=uk' },
+  { id: '20', name: 'Prof. Dominic Farris', org: 'PHSS, UNIV. OF EXETER', role: 'Associate Professor', img: profDominicImg, link: 'https://experts.exeter.ac.uk/27162-dominic-farris' },
+
+  { id: '3', name: 'Brig. Bibhu Nayak', org: 'NCSSR, SAI', role: 'Director', img: brigBibhuImg, link: 'https://sportsauthorityofindia.nic.in/' },
+  { id: '10', name: 'Dr. Manish Rana', org: 'PCI', role: 'Director, Paralympics Committee of India', img: drManishImg, link: 'https://in.linkedin.com/in/manish-rana' },
   { id: '11', name: 'Dr. Shatarupa Chakraborty', org: 'NCSSR, SAI', role: 'Scientist', img: drShatarupaImg, link: 'https://in.linkedin.com/in/dr-shatarupa-chakraborty-6b120590' },
   { id: '12', name: 'Dr. Subhra Chatterjee', org: 'NCSSR, SAI', role: 'Scientist', img: drSubhraImg, link: 'https://in.linkedin.com/in/dr-subhra-chatterjee-7a3555154' },
-  { id: '13', name: 'James Rhodes', org: 'UNIV. OF EXETER', role: 'Data Scientist', img: jamesRhodesImg, link: 'https://www.exeter.ac.uk/' },
+
   { id: '14', name: 'Mr. Sankar Balasubramanian', org: 'IISC', role: 'Research Scholar', img: sankarImg, link: 'https://in.linkedin.com/in/sankar4' },
   { id: '15', name: 'Mr. Manikandan', org: 'IIT DELHI', role: 'Technical Assistant', img: manikandanImg, link: 'https://in.linkedin.com/in/manikandaniitd' },
   { id: '16', name: 'Mr. Nikhil Chowdhary', org: 'IIT DELHI', role: 'Technical Assistant', img: nikhilImg, link: 'https://www.linkedin.com/in/nikhil-chowdhary-756a292ab/' },
   { id: '17', name: 'Ms. Tanisha Majumdar', org: 'IIT DELHI', role: 'Technical Assistant', img: tanishaImg, link: 'https://in.linkedin.com/in/tanisha-majumdar-17a6a4206' },
   { id: '18', name: 'Mr. Abhinav Joshi', org: 'IIT DELHI', role: 'Technical Assistant', img: abhinavJoshiImg, link: 'https://www.linkedin.com/in/abhinav-joshi-949a9227' },
-  { id: '19', name: 'Prof. Biswarup Mukherjee', org: 'CBME, IIT DELHI', role: 'Associate Professor', img: profBiswarupImg, link: 'https://cbme.iitd.ac.in/faculty-profile/3' },
-  { id: '20', name: 'Prof. Dominic Farris', org: 'PHSS, UNIV. OF EXETER', role: 'Associate Professor', img: profDominicImg, link: 'https://experts.exeter.ac.uk/27162-dominic-farris' },
 ];
 
 const INITIAL_SYLLABUS: SyllabusModule[] = [
