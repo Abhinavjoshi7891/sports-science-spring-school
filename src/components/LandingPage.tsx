@@ -1,0 +1,847 @@
+import React, { useState, useRef } from 'react';
+import ChatBot from './ChatBot';
+import { Speaker, SyllabusModule } from '../App';
+import confetti from 'canvas-confetti';
+import iitdLogo from '../assets/images/iitd-logo.png';
+import exeterLogo from '../assets/images/University-of-Exeter-logo.png';
+import saiLogo from '../assets/images/sai-logo.jpg';
+import iitdMainBuilding from '../assets/images/iitd.jpg';
+import programOverviewImg from '../assets/images/program-overview.png';
+import profDeepakJoshiImg from '../assets/images/Prof-Deepak-Joshi-CBME-IIT-Delhi.png';
+import profMarkImg from '../assets/images/Prof-Mark-Wilson-University-of-Exeter.png';
+import profBiswarupImg from '../assets/images/Prof-Biswarup-Mukherjee-CBME-IIT-Delhi.png';
+import profDominicImg from '../assets/images/Prof-Dominic-Farris-PHSS-University-of-Exeter.png';
+import nokovLogo from '../assets/images/Nokov.motion_capture-3IkHo-Ez (1).png';
+import tecGihanLogo from '../assets/images/Tec_gihan_co.jpg';
+import delsysLogo from '../assets/images/Delsys Logo.png';
+import cadLogo from '../assets/images/cad engineering services .png';
+
+interface LandingPageProps {
+    onRegister: () => void;
+    onDownload: (type: 'brochure' | 'syllabus') => void;
+    onAdminClick: () => void;
+    theme: 'light' | 'dark';
+    toggleTheme: () => void;
+    speakers: Speaker[];
+    syllabus: SyllabusModule[];
+}
+
+const LandingPage: React.FC<LandingPageProps> = ({
+    onRegister,
+    onDownload,
+    onAdminClick,
+    theme,
+    toggleTheme,
+    speakers,
+    syllabus
+}) => {
+    // Syllabus Modal State
+    const [activeModule, setActiveModule] = useState<SyllabusModule | null>(null);
+
+    // Speaker Carousel Logic
+    const speakerScrollRef = useRef<HTMLDivElement>(null);
+
+    const scrollSpeakers = (direction: 'left' | 'right') => {
+        if (speakerScrollRef.current) {
+            const container = speakerScrollRef.current;
+            const scrollAmount = 300; // Adjusted for better physics
+            if (direction === 'left') {
+                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+    };
+
+    // Certificate Tilt & Confetti Logic
+    const [certStyle, setCertStyle] = useState<React.CSSProperties>({});
+
+    const handleCertMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const card = e.currentTarget;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        // Calculate rotation based on mouse position (max 25 degrees for more prominence)
+        const rotateX = ((y - centerY) / centerY) * -25;
+        const rotateY = ((x - centerX) / centerX) * 25;
+
+        setCertStyle({
+            transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1, 1.1, 1.1)`,
+            transition: 'transform 0.05s ease',
+            zIndex: 50,
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' // Add deep shadow on lift
+        });
+    };
+
+    const handleCertMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+        // Fire confetti from the center of the card relative to viewport
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = (rect.left + rect.width / 2) / window.innerWidth;
+        const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+        // Helper to handle ESM default export potential issues
+        const fire = (confetti as any).default || confetti;
+
+        if (typeof fire === 'function') {
+            fire({
+                particleCount: 150,
+                spread: 120,
+                origin: { x, y },
+                zIndex: 9999, // Ensure it's on top of everything
+                colors: ['#c5a059', '#003366', '#ffffff', '#FFD700'],
+                startVelocity: 45,
+                ticks: 200
+            });
+        }
+    };
+
+    const handleCertMouseLeave = () => {
+        setCertStyle({
+            transform: `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`,
+            transition: 'transform 0.5s ease',
+            zIndex: 1
+        });
+    };
+
+    return (
+        <div className="relative flex min-h-screen w-full flex-col bg-white dark:bg-background-dark transition-colors duration-300 font-body">
+            {/* Navigation */}
+            <nav className="sticky top-0 z-50 w-full bg-white dark:bg-surface-dark border-b border-slate-200 dark:border-border-dark px-6 py-4 shadow-sm">
+                <div className="mx-auto max-w-7xl flex items-center justify-between">
+                    {/* Logo */}
+                    <div className="flex items-center gap-2">
+                        <div className="text-primary dark:text-white flex flex-col leading-none">
+                            <div className="flex items-center gap-2">
+                                <span className="material-symbols-outlined text-4xl text-[#003366] dark:text-blue-400">back_hand</span>
+                                <span className="text-3xl font-bold tracking-tight text-[#003366] dark:text-white">RISE <span className="font-light">Lab</span></span>
+                            </div>
+                            <span className="text-[0.6rem] tracking-[0.2em] uppercase text-slate-500 pl-12">Devices for Recovery</span>
+                        </div>
+                    </div>
+
+                    {/* Desktop Menu */}
+                    <div className="hidden lg:flex items-center gap-8">
+                        {['Home', 'Research', 'Publication', 'Team', 'Join us', 'Contact'].map((item) => (
+                            <a key={item} href="#" className="text-[#0056b3] dark:text-blue-400 font-medium text-base hover:text-[#003366] transition-colors">
+                                {item}
+                            </a>
+                        ))}
+                    </div>
+
+                    {/* Action Button & Theme Toggle */}
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                            aria-label="Toggle theme"
+                        >
+                            <span className="material-symbols-outlined text-xl">
+                                {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+                            </span>
+                        </button>
+                        <button onClick={onRegister} className="bg-[#0056b3] text-white px-5 py-2 rounded-md font-bold text-sm hover:bg-[#004494] transition shadow-md whitespace-nowrap">
+                            Spring School
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <main className="flex-1 w-full space-y-0 pb-0">
+
+                {/* HERO SECTION */}
+                <section className="max-w-[1400px] mx-auto px-4 pt-6 pb-20">
+                    <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 group">
+
+                        {/* Main Image */}
+                        <div className="relative h-[550px] lg:h-[650px] w-full">
+                            <img
+                                src={iitdMainBuilding}
+                                alt="IIT Delhi Main Building"
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[30s] group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent pointer-events-none"></div>
+
+                            {/* Top Left Logos Card */}
+                            <div className="absolute top-6 left-6 md:top-10 md:left-10 bg-white rounded-xl py-3 px-6 shadow-xl flex items-center gap-6 z-10 max-w-[90%] flex-wrap">
+                                <a href="https://home.iitd.ac.in/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+                                    <img src={iitdLogo} alt="IITD" className="h-12 md:h-14 w-auto object-contain" />
+                                </a>
+                                <a href="https://www.exeter.ac.uk/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+                                    <img src={exeterLogo} alt="Exeter" className="h-10 md:h-12 w-auto object-contain" />
+                                </a>
+                                <a href="https://sportsauthorityofindia.nic.in/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+                                    <img src={saiLogo} alt="SAI" className="h-10 md:h-12 w-auto object-contain" />
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Registration Card - Absolute Positioned */}
+                        <div className="hidden lg:block absolute top-1/2 right-12 -translate-y-[45%] w-[380px] z-20">
+                            <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-700">
+                                <div className="bg-[#0056b3] dark:bg-[#003366] p-6 text-center">
+                                    <h3 className="text-white font-bold text-2xl uppercase tracking-wide">Registration Open Now</h3>
+                                </div>
+                                <div className="p-8">
+                                    <h4 className="text-[#0056b3] dark:text-blue-400 font-bold text-center mb-6 uppercase tracking-wider text-sm">Learn Advanced Tools</h4>
+                                    <ul className="space-y-3 text-slate-700 dark:text-slate-300 font-medium mb-8">
+                                        {['Data Analytics', 'Machine Learning', 'Biomechanics', 'Physiology', 'Nutrition Interventions', 'Virtual Reality (VR) in Sports'].map(item => (
+                                            <li key={item} className="flex items-center gap-3">
+                                                <span className="material-symbols-outlined text-[18px] text-black dark:text-white font-bold text-xs">circle</span>
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <button onClick={onRegister} className="w-full bg-[#0056b3] hover:bg-[#004494] text-white font-bold py-4 rounded-lg text-lg transition-colors shadow-lg uppercase tracking-wide">
+                                        Register Now
+                                    </button>
+                                    <p className="text-[10px] text-center text-[#0056b3] dark:text-blue-300 mt-3 font-medium">
+                                        Note: Seats Are very Limited, register as soon as possible
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mobile Registration Card (Visible only on small screens) */}
+                    <div className="lg:hidden mt-4">
+                        <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700">
+                            <div className="bg-[#0056b3] dark:bg-[#003366] p-6 text-center">
+                                <h3 className="text-white font-bold text-xl uppercase tracking-wide">Registration Open Now</h3>
+                            </div>
+                            <div className="p-6">
+                                <button onClick={onRegister} className="w-full bg-[#0056b3] hover:bg-[#004494] text-white font-bold py-3 rounded-lg text-base transition-colors shadow-lg uppercase tracking-wide">
+                                    Register Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bottom Info Bar - Floating/Overlapping */}
+                    <div className="relative -mt-16 z-30 px-4 lg:px-12 pointer-events-none">
+                        <div className="bg-[#004494] dark:bg-[#003366] rounded-2xl shadow-2xl p-6 lg:py-8 lg:px-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-white pointer-events-auto max-w-[95%] lg:max-w-[85%] mx-auto lg:ml-0">
+
+                            {/* Starts */}
+                            <div className="flex items-center gap-5">
+                                <div className="w-14 h-14 rounded-full border-2 border-white/20 flex items-center justify-center flex-shrink-0">
+                                    <span className="material-symbols-outlined text-3xl">calendar_month</span>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium opacity-80 uppercase tracking-wider">Programme Starts</p>
+                                    <p className="text-2xl font-bold font-display">2nd March, 2026</p>
+                                </div>
+                            </div>
+
+                            <div className="hidden lg:block w-px h-12 bg-white/20"></div>
+
+                            {/* Fees */}
+                            <div className="flex items-center gap-5">
+                                <div className="w-14 h-14 rounded-full border-2 border-white/20 flex items-center justify-center flex-shrink-0">
+                                    <span className="material-symbols-outlined text-3xl">currency_rupee</span>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium opacity-80 uppercase tracking-wider">Programme Fees For Early Birds</p>
+                                    <div className="flex items-baseline gap-3">
+                                        <span className="text-lg opacity-50 line-through decoration-white/50 font-medium">₹20,000</span>
+                                        <p className="text-2xl font-bold font-display">₹17,000 + GST</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Brochure Button */}
+                            <div className="w-full lg:w-auto mt-2 lg:mt-0">
+                                <button
+                                    onClick={() => onDownload('brochure')}
+                                    className="w-full lg:w-auto bg-white text-[#004494] hover:bg-slate-100 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition-colors whitespace-nowrap"
+                                >
+                                    Download Brochure
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* PROGRAM OVERVIEW */}
+                <section className="max-w-7xl mx-auto px-4 pb-16">
+                    <h2 className="text-3xl font-black text-center text-primary dark:text-white mb-12 uppercase tracking-wide">Programme Overview</h2>
+                    <div className="flex flex-col lg:flex-row gap-12 items-center">
+                        <div className="flex-1 space-y-6 text-slate-700 dark:text-slate-300 text-lg leading-relaxed text-justify">
+                            <p>
+                                The event will be an intensive <strong className="text-black dark:text-white font-bold">in person training</strong> and upskilling opportunity for <strong className="text-black dark:text-white font-bold">sports coaches, physios, fitness professionals, Sports Scientists and Entrepreneurs</strong> who would like to learn about advanced technological and analytics tools for sporting performance assessment and enhancement through interventions in nutrition, physiology, biomechanics and VR.
+                            </p>
+                            <p>
+                                The event will feature <strong className="text-black dark:text-white font-bold">top faculty</strong> from IIT Delhi, international faculty from University of Exeter and scientists and practitioners from Sports Authority of India.
+                            </p>
+                        </div>
+                        <div className="flex-1 w-full">
+                            <div className="aspect-video rounded-2xl overflow-hidden shadow-xl border-4 border-white dark:border-surface-dark bg-black">
+                                <img
+                                    src={programOverviewImg}
+                                    alt="Classroom Session"
+                                    className="w-full h-full object-cover opacity-90"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* BANNER 1: DESIGNED FOR */}
+                <section className="w-full">
+                    <div className="bg-[#0056b3] dark:bg-[#003366] py-5 text-center shadow-md">
+                        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider">This Program Is Specially Designed For</h2>
+                    </div>
+                    <div className="bg-[#f0f4f8] dark:bg-black/20 py-10 border-b border-slate-200 dark:border-slate-800">
+                        <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-4 md:gap-6">
+                            {['Sports Coaches', 'Physios', 'Fitness Professionals', 'Sports Scientists', 'Entrepreneurs'].map((role) => (
+                                <div key={role} className="bg-white dark:bg-surface-dark text-slate-800 dark:text-white px-8 py-3 rounded-lg border-2 border-[#0056b3] font-bold text-lg shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-default text-center">
+                                    {role}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* BANNER 2: FACULTY FROM */}
+                <section className="w-full mb-16">
+                    <div className="bg-[#0056b3] dark:bg-[#003366] py-5 text-center shadow-md">
+                        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider">Top International Faculty and Scientist From</h2>
+                    </div>
+                    <div className="bg-white dark:bg-surface-dark py-10 shadow-inner">
+                        <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center items-center gap-8 md:gap-20">
+                            <a href="https://home.iitd.ac.in/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+                                <img src={iitdLogo} alt="IITD" className="h-16 w-auto object-contain" />
+                            </a>
+                            <a href="https://www.exeter.ac.uk/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+                                <img src={exeterLogo} alt="Exeter" className="h-14 w-auto object-contain" />
+                            </a>
+                            <a href="https://sportsauthorityofindia.nic.in/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+                                <img src={saiLogo} alt="SAI" className="h-16 w-auto object-contain" />
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                {/* HIGHLIGHTS */}
+                <section className="max-w-7xl mx-auto px-4 pb-20 bg-[#e8eff6] dark:bg-background-dark py-16 rounded-3xl">
+                    <h2 className="text-3xl font-black text-center text-primary dark:text-white mb-12 uppercase tracking-wide">Programme Highlights</h2>
+
+                    <div className="flex flex-col gap-6 max-w-6xl mx-auto">
+                        {/* Top Row: 3 items */}
+                        <div className="grid md:grid-cols-3 gap-6">
+                            {[
+                                { icon: 'groups', title: 'In Person Training' },
+                                { icon: 'co_present', title: 'Live Session' },
+                                { icon: 'workspace_premium', title: 'Get Certification Opportunity' },
+                            ].map((item, i) => (
+                                <div key={i} className="flex h-full shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 rounded-lg overflow-hidden group">
+                                    <div className="w-24 bg-[#0056b3] flex items-center justify-center shrink-0">
+                                        <span className="material-symbols-outlined text-4xl text-white">{item.icon}</span>
+                                    </div>
+                                    <div className="bg-white dark:bg-surface-dark flex items-center p-4 flex-1">
+                                        <h3 className="text-lg font-bold text-slate-800 dark:text-white leading-tight">{item.title}</h3>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Bottom Row: 2 items */}
+                        <div className="grid md:grid-cols-2 gap-6 md:w-[85%] md:mx-auto">
+                            {[
+                                { icon: 'domain', title: 'Technology Demonstration & Training by Industry' },
+                                { icon: 'account_balance', title: 'Learn Directly From IIT Delhi & University of Exeter Faculty' },
+                            ].map((item, i) => (
+                                <div key={i} className="flex h-full shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 rounded-lg overflow-hidden group">
+                                    <div className="w-24 bg-[#0056b3] flex items-center justify-center shrink-0">
+                                        <span className="material-symbols-outlined text-4xl text-white">{item.icon}</span>
+                                    </div>
+                                    <div className="bg-white dark:bg-surface-dark flex items-center p-4 flex-1">
+                                        <h3 className="text-lg font-bold text-slate-800 dark:text-white leading-tight">{item.title}</h3>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* CERTIFICATE */}
+                <section className="bg-[#0056b3] dark:bg-[#003366] py-16 text-white overflow-hidden relative">
+                    <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12 relative z-10">
+                        <div className="flex-1 text-center md:text-left">
+                            <h2 className="text-3xl font-bold mb-4 uppercase">Get Certificate</h2>
+                            <p className="text-xl font-medium opacity-90 mb-6">Certified by Experts. Recognized by Institutions.</p>
+                            <p className="opacity-80 leading-relaxed max-w-xl">
+                                Receive an Official Certificate upon Successful Completion of The Spring School, validating your learning in: Sports Technology, Machine Learning Applications, and Data Analytics in Sports Science.
+                            </p>
+                        </div>
+                        <div className="flex-1 flex justify-center">
+                            <div
+                                onMouseMove={handleCertMouseMove}
+                                onMouseEnter={handleCertMouseEnter}
+                                onMouseLeave={handleCertMouseLeave}
+                                style={certStyle}
+                                className="bg-white p-2 rounded shadow-2xl transition-transform duration-100 max-w-xs md:max-w-sm cursor-pointer"
+                            >
+                                <div className="border-4 border-[#003366] p-6 text-center h-[240px] flex flex-col items-center justify-center bg-slate-50">
+                                    <span className="material-symbols-outlined text-6xl text-[#003366] mb-2">workspace_premium</span>
+                                    <div className="font-display font-bold text-[#003366] text-xl mb-1">CERTIFICATE</div>
+                                    <div className="text-[#003366] text-xs uppercase tracking-widest mb-4">of Completion</div>
+                                    <div className="w-16 h-1 bg-[#c5a059] mb-4"></div>
+                                    <div className="text-slate-400 text-[10px]">Authorized Signature</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* COURSE SYLLABUS SECTION - NOW WITH TILES & POPUP */}
+                <section className="max-w-7xl mx-auto px-4 py-16">
+                    <div className="flex justify-between items-end mb-8 border-b border-slate-200 dark:border-slate-800 pb-4">
+                        <div>
+                            <h2 className="text-3xl font-display font-bold text-primary dark:text-white">Course Syllabus</h2>
+                            <p className="text-slate-500 dark:text-slate-400 mt-2">Spring Semester 2026 • 5-Day Intensive</p>
+                        </div>
+                        <button
+                            onClick={() => onDownload('syllabus')}
+                            className="text-[#003366] dark:text-blue-400 font-bold text-sm uppercase tracking-wider flex items-center gap-2 hover:underline"
+                        >
+                            Download Full PDF <span className="material-symbols-outlined text-lg">download</span>
+                        </button>
+                    </div>
+
+                    <div className="flex flex-col gap-6">
+                        {syllabus.map((module) => (
+                            <div
+                                key={module.id}
+                                onClick={() => setActiveModule(module)}
+                                className="bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 p-6 shadow-sm hover:shadow-lg transition-all cursor-pointer group hover:-translate-y-1 duration-300"
+                            >
+                                <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
+                                    {/* Module ID Box */}
+                                    <div className="flex flex-col items-center justify-center w-20 h-20 border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-black/20 shrink-0 group-hover:bg-[#003366] group-hover:border-[#003366] transition-colors">
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase group-hover:text-white/70">MODULE</span>
+                                        <span className="text-xl font-bold text-[#003366] dark:text-white group-hover:text-white">{module.id}</span>
+                                    </div>
+
+                                    {/* Content Info */}
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-display font-bold text-[#003366] dark:text-white mb-3 group-hover:text-[#0056b3] dark:group-hover:text-blue-400 transition-colors">{module.title}</h3>
+                                        <div className="flex flex-wrap gap-4 lg:gap-8 text-sm text-slate-600 dark:text-slate-300">
+                                            <div className="flex items-center gap-2">
+                                                <span className="material-symbols-outlined text-lg text-slate-400">person</span>
+                                                {module.lead}
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <span className="material-symbols-outlined text-lg text-slate-400">schedule</span>
+                                                {module.time}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Action Button */}
+                                    <div className="w-full lg:w-auto mt-4 lg:mt-0">
+                                        <button
+                                            className="w-full lg:w-auto px-6 py-2.5 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-white font-medium group-hover:bg-[#003366] group-hover:text-white group-hover:border-[#003366] transition-all flex items-center justify-center gap-2 rounded-lg"
+                                        >
+                                            View Details
+                                            <span className="material-symbols-outlined text-sm">visibility</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* NEW: DISTINGUISHED FACULTY CAROUSEL */}
+                <section className="bg-slate-50 dark:bg-[#151515] py-20 border-y border-slate-200 dark:border-slate-800">
+                    <div className="max-w-7xl mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-display font-bold text-[#003366] dark:text-white mb-4">Distinguished Faculty</h2>
+                            <p className="text-slate-600 dark:text-slate-400">Our curriculum is delivered by world-renowned academics and industry practitioners.</p>
+                        </div>
+
+                        <div className="relative group px-12">
+                            {/* Navigation Buttons */}
+                            <button
+                                onClick={() => scrollSpeakers('left')}
+                                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
+                            >
+                                <span className="material-symbols-outlined">chevron_left</span>
+                            </button>
+
+                            <button
+                                onClick={() => scrollSpeakers('right')}
+                                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
+                            >
+                                <span className="material-symbols-outlined">chevron_right</span>
+                            </button>
+
+                            {/* Carousel Container */}
+                            <div
+                                ref={speakerScrollRef}
+                                className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 scrollbar-hide scroll-smooth"
+                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                            >
+                                {speakers.map((speaker, idx) => (
+                                    <a
+                                        key={idx}
+                                        href={speaker.link || '#'}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="snap-start shrink-0 w-[280px] block group/card"
+                                    >
+                                        <div className="bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 p-4 shadow-sm hover:shadow-2xl hover:-translate-y-4 hover:scale-[1.02] transition-all duration-500 ease-out h-full rounded-xl relative z-0 hover:z-10">
+                                            {/* Image with Grayscale -> Color on Hover */}
+                                            <div className="aspect-[4/5] w-full overflow-hidden bg-slate-200 dark:bg-slate-800 mb-5 grayscale group-hover/card:grayscale-0 transition-all duration-700 rounded-lg">
+                                                <img src={speaker.img} alt={speaker.name} className="h-full w-full object-cover transition-transform duration-700 group-hover/card:scale-110" />
+                                            </div>
+                                            <div className="text-left">
+                                                <h3 className="text-lg font-display font-bold text-[#003366] dark:text-white mb-1 group-hover/card:text-[#0056b3] dark:group-hover/card:text-blue-400 transition-colors leading-tight">{speaker.name}</h3>
+                                                <p className="text-[10px] uppercase tracking-widest text-[#c5a059] font-bold mb-1">{speaker.org}</p>
+                                                <p className="text-sm text-slate-500 dark:text-slate-400 italic leading-tight">{speaker.role}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* COORDINATORS - WITH GRAYSCALE EFFECT & LINKS */}
+                <section className="max-w-5xl mx-auto px-4 py-16">
+                    <h2 className="text-3xl font-bold text-center text-primary dark:text-white mb-12 uppercase tracking-wide">Programme Coordinators</h2>
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <a
+                            href="https://cbme.iitd.ac.in/faculty-profile/3"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block group"
+                        >
+                            <div className="bg-white dark:bg-surface-dark p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-border-dark flex flex-col sm:flex-row gap-6 items-start hover:border-[#003366] hover:shadow-2xl hover:-translate-y-4 hover:scale-[1.02] transition-all duration-500 ease-out h-full relative z-0 hover:z-10">
+                                <img src={profBiswarupImg} alt="Prof Biswarup Mukherjee" className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 dark:border-white/10 grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" />
+                                <div>
+                                    <h3 className="text-xl font-bold text-[#003366] dark:text-blue-400 group-hover:underline">Prof. Biswarup Mukherjee</h3>
+                                    <p className="text-xs font-bold uppercase text-slate-500 mb-3">Associate Professor, CBME, IIT Delhi</p>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        Coordinator for IIT Delhi - University of Exeter partnership. Research focused on multi-modal platform technologies for neuromuscular activity monitoring.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a
+                            href="https://experts.exeter.ac.uk/27162-dominic-farris"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block group"
+                        >
+                            <div className="bg-white dark:bg-surface-dark p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-border-dark flex flex-col sm:flex-row gap-6 items-start hover:border-[#003366] hover:shadow-2xl hover:-translate-y-4 hover:scale-[1.02] transition-all duration-500 ease-out h-full relative z-0 hover:z-10">
+                                <img src={profDominicImg} alt="Prof Dominic Farris" className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 dark:border-white/10 grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" />
+                                <div>
+                                    <h3 className="text-xl font-bold text-[#003366] dark:text-blue-400 group-hover:underline">Prof. Dominic Farris</h3>
+                                    <p className="text-xs font-bold uppercase text-slate-500 mb-3">Associate Professor, PHSS, Univ. of Exeter</p>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        Extensive research in neuromuscular biomechanics and human movement science, exploring muscle coordination for efficient movement.
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                {/* SPONSORS */}
+                <section className="max-w-7xl mx-auto px-4 text-center pb-20">
+                    <h2 className="text-2xl font-bold text-primary dark:text-white mb-12 uppercase tracking-wide">Tech Demonstration and Sponsors</h2>
+                    <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20">
+                        <a
+                            href="https://en.nokov.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/logo transition-all duration-500 hover:-translate-y-4 hover:scale-110"
+                        >
+                            <img src={nokovLogo} alt="Nokov" className="h-12 md:h-16 w-auto object-contain transition-all duration-500" />
+                        </a>
+                        <a
+                            href="https://tecgihan.co.jp/en/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/logo transition-all duration-500 hover:-translate-y-4 hover:scale-110"
+                        >
+                            <img src={tecGihanLogo} alt="Tec Gihan" className="h-12 md:h-16 w-auto object-contain transition-all duration-500" />
+                        </a>
+                        <a
+                            href="https://delsys.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/logo transition-all duration-500 hover:-translate-y-4 hover:scale-110"
+                        >
+                            <img src={delsysLogo} alt="Delsys" className="h-12 md:h-16 w-auto object-contain transition-all duration-500" />
+                        </a>
+                        <a
+                            href="https://www.cadengineering.co.in"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/logo transition-all duration-500 hover:-translate-y-4 hover:scale-110"
+                        >
+                            <img src={cadLogo} alt="CAD Engineering Services" className="h-12 md:h-16 w-auto object-contain transition-all duration-500" />
+                        </a>
+                    </div>
+                </section>
+
+                {/* GET IN TOUCH - DETAILED */}
+                <section className="bg-white dark:bg-background-dark py-20 border-t border-slate-200 dark:border-slate-800">
+                    <div className="max-w-7xl mx-auto px-4">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl font-black text-[#003366] dark:text-white mb-4 uppercase tracking-tight">Get In Touch</h2>
+                            <p className="text-xl text-slate-500 dark:text-slate-400">Have questions? We'd love to hear from you</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-16">
+                            {/* Left Column: Contact Info & Map */}
+                            <div className="space-y-8">
+                                <h3 className="text-2xl font-bold text-[#003366] dark:text-white uppercase tracking-wide">Contact Info</h3>
+
+                                <div className="space-y-6">
+                                    <div className="flex items-start gap-4">
+                                        <div className="p-3 bg-slate-100 dark:bg-surface-dark rounded-lg text-[#0056b3] dark:text-blue-400">
+                                            <span className="material-symbols-outlined text-2xl">mail</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-slate-900 dark:text-white text-lg">Email</h4>
+                                            <p className="text-slate-600 dark:text-slate-400 text-lg">sports_iitd_exeter@admin.iitd.ac.in</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-start gap-4">
+                                        <div className="p-3 bg-slate-100 dark:bg-surface-dark rounded-lg text-[#0056b3] dark:text-blue-400">
+                                            <span className="material-symbols-outlined text-2xl">person_pin_circle</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-slate-900 dark:text-white text-lg">Location</h4>
+                                            <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+                                                RISE Lab, Block III, Room: 395<br />
+                                                IIT Delhi, Hauz Khas<br />
+                                                New Delhi - 110016
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Map */}
+                                <div className="w-full h-[300px] rounded-xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-700 mt-8 relative bg-slate-100">
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.604620584766!2d77.18990667616116!3d28.55160877570908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d810475f457%3A0xe05391d1844b7029!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1716382903370!5m2!1sen!2sin"
+                                        width="100%"
+                                        height="100%"
+                                        style={{ border: 0 }}
+                                        allowFullScreen={true}
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        title="IIT Delhi Location"
+                                        className="grayscale hover:grayscale-0 transition-all duration-500"
+                                    ></iframe>
+                                </div>
+                            </div>
+
+                            {/* Right Column: Contact Form */}
+                            <div className="bg-white dark:bg-surface-dark p-8 md:p-10 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700">
+                                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                                    <div className="space-y-2">
+                                        <label htmlFor="contact-name" className="text-sm font-bold text-slate-900 dark:text-white">Name</label>
+                                        <input
+                                            type="text"
+                                            id="contact-name"
+                                            className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-[#003366] dark:focus:border-blue-400 transition-colors"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label htmlFor="contact-email" className="text-sm font-bold text-slate-900 dark:text-white">Email</label>
+                                        <input
+                                            type="email"
+                                            id="contact-email"
+                                            className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-[#003366] dark:focus:border-blue-400 transition-colors"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label htmlFor="contact-subject" className="text-sm font-bold text-slate-900 dark:text-white">Subject</label>
+                                        <input
+                                            type="text"
+                                            id="contact-subject"
+                                            className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-[#003366] dark:focus:border-blue-400 transition-colors"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label htmlFor="contact-message" className="text-sm font-bold text-slate-900 dark:text-white">Message</label>
+                                        <textarea
+                                            id="contact-message"
+                                            rows={6}
+                                            className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-[#003366] dark:focus:border-blue-400 transition-colors resize-none"
+                                        ></textarea>
+                                    </div>
+
+                                    <button className="w-full bg-[#0b1120] dark:bg-blue-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 uppercase tracking-wide text-sm">
+                                        <span className="material-symbols-outlined text-lg">send</span>
+                                        Send Message
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* CALL TO ACTION - READY TO JOIN */}
+                <section className="bg-[#0056b3] text-white py-16 text-center">
+                    <h2 className="text-3xl font-bold mb-4">Ready to Join?</h2>
+                    <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
+                        Don't miss this opportunity to learn from leading experts and network with professionals in sports science.
+                    </p>
+                    <button onClick={onRegister} className="bg-white text-[#0056b3] px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition-transform">
+                        Register Now
+                    </button>
+                </section>
+
+            </main>
+
+            {/* FOOTER - DETAILED */}
+            <footer className="bg-[#1a1a1a] text-white pt-16 pb-8 border-t border-white/10">
+                <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12 mb-12">
+                    {/* Column 1: Brand & Social */}
+                    <div className="col-span-1 md:col-span-1">
+                        <div className="flex items-center gap-2 mb-6">
+                            <span className="material-symbols-outlined text-3xl text-white">back_hand</span>
+                            <span className="text-2xl font-bold">RISE Lab</span>
+                        </div>
+                        <p className="text-white/60 text-sm leading-relaxed mb-4">
+                            Rehab, Instrumentation & Sensory Engineering Lab, IIT Delhi
+                        </p>
+                        <div className="flex gap-4">
+                            <a href="#" className="opacity-60 hover:opacity-100 transition-opacity"><span className="material-symbols-outlined">smart_display</span></a>
+                            <a href="#" className="opacity-60 hover:opacity-100 transition-opacity"><span className="material-symbols-outlined">alternate_email</span></a>
+                            <a href="#" className="opacity-60 hover:opacity-100 transition-opacity"><span className="material-symbols-outlined">public</span></a>
+                        </div>
+                    </div>
+
+                    {/* Column 2: Navigation */}
+                    <div>
+                        <h4 className="font-bold uppercase tracking-wider text-sm mb-6 text-white/40">Navigation</h4>
+                        <ul className="space-y-3 text-sm text-white/70">
+                            <li><a href="#" className="hover:text-white hover:underline">Home</a></li>
+                            <li><a href="#" className="hover:text-white hover:underline">Research</a></li>
+                            <li><a href="#" className="hover:text-white hover:underline">Team</a></li>
+                            <li><a href="#" className="hover:text-white hover:underline">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    {/* Column 3: Contact */}
+                    <div>
+                        <h4 className="font-bold uppercase tracking-wider text-sm mb-6 text-white/40">We are located here</h4>
+                        <p className="text-white/70 text-sm leading-relaxed mb-4">
+                            Block III, Room: 395<br />
+                            Indian Institute of Technology Delhi<br />
+                            Hauz Khas, New Delhi 110016
+                        </p>
+                        <p className="text-white/70 text-sm">
+                            <span className="block opacity-50 text-xs uppercase">Contact</span>
+                            sports_iitd_exeter@admin.iitd.ac.in
+                        </p>
+                    </div>
+                </div>
+
+                {/* Copyright Bar */}
+                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-white/20 text-xs border-t border-white/5 pt-8 gap-4">
+                    <div>&copy; 2026 RISE Lab • IIT Delhi. All rights reserved.</div>
+                    <button onClick={onAdminClick} className="hover:text-white/70 transition-colors flex items-center gap-1">
+                        <span className="material-symbols-outlined text-xs">admin_panel_settings</span>
+                        Admin
+                    </button>
+                </div>
+            </footer>
+
+            {/* Floating Chat Bot */}
+            <ChatBot />
+
+            {/* Course Syllabus Modal */}
+            {activeModule && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    {/* Backdrop */}
+                    <div
+                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        onClick={() => setActiveModule(null)}
+                    ></div>
+
+                    {/* Modal Content */}
+                    <div className="relative bg-white dark:bg-surface-dark w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up">
+                        {/* Header */}
+                        <div className="bg-[#003366] p-6 text-white flex justify-between items-start">
+                            <div>
+                                <span className="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-bold uppercase tracking-wider mb-2">Module {activeModule.id}</span>
+                                <h3 className="text-2xl font-display font-bold">{activeModule.title}</h3>
+                            </div>
+                            <button
+                                onClick={() => setActiveModule(null)}
+                                className="text-white/70 hover:text-white p-2 hover:bg-white/10 rounded-full transition-colors"
+                            >
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+
+                        {/* Body */}
+                        <div className="p-8">
+                            <div className="grid md:grid-cols-2 gap-6 mb-8">
+                                <div className="flex items-center gap-3 p-4 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/10">
+                                    <div className="w-10 h-10 rounded-full bg-[#003366] text-white flex items-center justify-center">
+                                        <span className="material-symbols-outlined">person</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs uppercase text-slate-500 dark:text-slate-400 font-bold tracking-wider">Lead Faculty</p>
+                                        <p className="font-bold text-slate-900 dark:text-white">{activeModule.lead}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 p-4 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/10">
+                                    <div className="w-10 h-10 rounded-full bg-[#003366] text-white flex items-center justify-center">
+                                        <span className="material-symbols-outlined">schedule</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs uppercase text-slate-500 dark:text-slate-400 font-bold tracking-wider">Schedule</p>
+                                        <p className="font-bold text-slate-900 dark:text-white">{activeModule.time}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                <h4 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-700 pb-2">Topics Covered</h4>
+                                <ul className="space-y-3">
+                                    {activeModule.topics.map((topic, idx) => (
+                                        <li key={idx} className="flex items-start gap-3">
+                                            <span className="material-symbols-outlined text-[#003366] dark:text-blue-400 text-xl mt-0.5">check_circle</span>
+                                            <span className="text-slate-700 dark:text-slate-300 leading-relaxed">{topic}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+
+                        {/* Footer Actions */}
+                        <div className="p-6 bg-slate-50 dark:bg-black/20 border-t border-slate-100 dark:border-white/5 flex justify-end">
+                            <button
+                                onClick={() => setActiveModule(null)}
+                                className="px-6 py-2.5 bg-slate-200 dark:bg-white/10 hover:bg-slate-300 dark:hover:bg-white/20 text-slate-800 dark:text-white font-bold rounded-lg transition-colors"
+                            >
+                                Close Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+        </div>
+    );
+};
+
+export default LandingPage;
