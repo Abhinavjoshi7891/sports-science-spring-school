@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+// Removed GoogleGenAI import to use Nvidia API
 
 interface Message {
   id: string;
@@ -53,23 +53,48 @@ const ChatBot: React.FC = () => {
 
     try {
       const apiKey = process.env.API_KEY;
+      console.log("[ChatBot] Initializing Nvidia API request...");
+      console.log("[ChatBot] API Key defined:", !!apiKey);
+      if (apiKey) console.log("[ChatBot] API Key length:", apiKey.length);
 
       let responseText = "I apologize, but I am currently unable to access the university database (API Key missing).";
 
       if (apiKey) {
-        const ai = new GoogleGenAI({ apiKey });
-
-        const history = messages.map(m => `${m.role === 'user' ? 'Candidate' : 'Admissions Assistant'}: ${m.text}`).join('\n');
-        const prompt = `${SYSTEM_INSTRUCTION}\n\n${history}\nCandidate: ${userMsg.text}\nAdmissions Assistant:`;
-
-        const response = await ai.models.generateContent({
-          model: 'gemini-1.5-flash',
-          contents: [{ role: 'user', parts: [{ text: prompt }] }]
+        console.log("[ChatBot] Sending request to Nvidia...");
+        const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: "nvidia/nemotron-3-nano-30b-a3b",
+            messages: [
+              { role: "system", content: SYSTEM_INSTRUCTION },
+              ...messages.map(m => ({
+                role: m.role === 'user' ? 'user' : 'assistant',
+                content: m.text
+              })),
+              { role: "user", content: inputText }
+            ],
+            temperature: 1,
+            top_p: 1,
+            max_tokens: 1024,
+          })
         });
 
-        const content = (response as any).choices?.[0]?.message?.content || (response as any).text;
-        if (content) {
-          responseText = content;
+        console.log("[ChatBot] Response status:", response.status);
+        const data = await response.json();
+        console.log("[ChatBot] Received data:", data);
+
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+          responseText = data.choices[0].message.content;
+          console.log("[ChatBot] Successfully parsed response text.");
+        } else if (data.error) {
+          console.error("[ChatBot] Nvidia API Error Details:", data.error);
+          responseText = `Technical Error: ${data.error.message || 'Unknown API error'}`;
+        } else {
+          console.warn("[ChatBot] Unexpected API response format:", data);
         }
       }
 
@@ -80,11 +105,11 @@ const ChatBot: React.FC = () => {
       }]);
 
     } catch (error) {
-      console.error("Chat error:", error);
+      console.error("[ChatBot] Critical fetch error:", error);
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        text: "I am encountering a technical issue. Please inquire again momentarily."
+        text: "I am encountering a technical issue connection. Please check your internet or console."
       }]);
     } finally {
       setIsLoading(false);
