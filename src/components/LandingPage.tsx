@@ -67,17 +67,29 @@ const LandingPage: React.FC<LandingPageProps> = ({
         const interval = setInterval(() => {
             const container = speakerScrollRef.current;
             if (container) {
-                if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
-                    container.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    // Scroll by one card width (300px + 48px gap)
-                    container.scrollBy({ left: 348, behavior: 'smooth' });
-                }
+                const cards = container.querySelectorAll('.speaker-card');
+                if (cards.length === 0) return;
+
+                // Find the next card index
+                let nextIdx = (focusedSpeakerIdx + 1) % cards.length;
+
+                const targetCard = cards[nextIdx] as HTMLElement;
+                const containerWidth = container.offsetWidth;
+                const cardWidth = targetCard.offsetWidth;
+
+                // Calculate scroll position to center the target card
+                // position = cardOffset - (containerWidth/2) + (cardWidth/2)
+                const scrollTarget = targetCard.offsetLeft - (containerWidth / 2) + (cardWidth / 2);
+
+                container.scrollTo({
+                    left: scrollTarget,
+                    behavior: 'smooth'
+                });
             }
-        }, 3000);
+        }, 4000); // Slightly slower for better readability
 
         return () => clearInterval(interval);
-    }, [isAutoScrolling]);
+    }, [isAutoScrolling, focusedSpeakerIdx, speakers.length]);
 
     // Intersection logic to detect "focused" speaker in the middle
     useEffect(() => {
