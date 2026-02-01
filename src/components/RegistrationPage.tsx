@@ -76,7 +76,7 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
         </div>
       </aside>
 
-      {/* Right Column: Enrollment Form */}
+      {/* Right Column: Registration Process */}
       <main className="flex-1 bg-white dark:bg-background-dark relative overflow-y-auto transition-colors duration-300">
 
         {/* Theme Toggle */}
@@ -92,109 +92,71 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
           </button>
         </div>
 
-        <div className="max-w-3xl mx-auto px-6 py-12 lg:px-16 lg:py-16">
-          <div className="mb-10 border-b border-slate-200 dark:border-border-dark pb-6">
-            <h2 className="text-2xl font-display font-bold text-primary dark:text-white">Candidate Enrollment</h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-1">Please complete your academic profile to proceed with the application.</p>
+        <div className="max-w-3xl mx-auto px-6 py-12 lg:px-16 lg:py-20">
+          <div className="mb-12 border-b border-slate-200 dark:border-border-dark pb-8">
+            <h2 className="text-3xl font-display font-bold text-primary dark:text-white mb-4">Registration Process</h2>
+            <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+              Please follow the steps below to secure your seat in the Spring School.
+            </p>
           </div>
 
-          <form action="#" className="space-y-10" onSubmit={(e) => e.preventDefault()}>
-            {/* Section: Candidate Details */}
-            <section>
-              <h3 className="text-lg font-bold text-primary dark:text-white mb-6 flex items-center gap-2 uppercase tracking-wide text-sm">
-                <span className="material-symbols-outlined text-accent text-lg">person</span>
-                Candidate Details
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="firstName" className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">First Name</label>
-                  <input type="text" id="firstName" className="w-full bg-slate-50 dark:bg-surface-dark text-slate-900 dark:text-white border border-slate-300 dark:border-border-dark rounded-sm px-4 py-3 focus:outline-none focus:ring-1 focus:ring-primary dark:focus:ring-accent focus:border-primary dark:focus:border-accent transition-colors" />
+          <div className="space-y-8 mb-16">
+            {[
+              {
+                step: '1',
+                title: 'Registration Form',
+                desc: 'Fill out the official registration form with your personal and academic details.'
+              },
+              {
+                step: '2',
+                title: 'Payment Link',
+                desc: 'The registration team will reach out to your email address with a payment link from the official IIT DELHI CEP PAY Portal.'
+              },
+              {
+                step: '3',
+                title: 'Save Confirmation',
+                desc: 'Keep a copy of the payment confirmation for your records.'
+              },
+              {
+                step: '4',
+                title: 'Final Confirmation',
+                desc: 'Once payment is confirmed, you will receive an email within 48 hours confirming your registration.'
+              }
+            ].map((item) => (
+              <div key={item.step} className="flex gap-6 group">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/5 dark:bg-white/5 border-2 border-primary/20 dark:border-white/20 flex items-center justify-center font-bold text-primary dark:text-accent group-hover:bg-primary group-hover:text-white dark:group-hover:bg-accent dark:group-hover:text-primary transition-all duration-300">
+                  {item.step}
                 </div>
-                <div className="space-y-2">
-                  <label htmlFor="lastName" className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Last Name</label>
-                  <input type="text" id="lastName" className="w-full bg-slate-50 dark:bg-surface-dark text-slate-900 dark:text-white border border-slate-300 dark:border-border-dark rounded-sm px-4 py-3 focus:outline-none focus:ring-1 focus:ring-primary dark:focus:ring-accent focus:border-primary dark:focus:border-accent transition-colors" />
-                </div>
-                <div className="space-y-2 md:col-span-2">
-                  <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Institutional Email</label>
-                  <input type="email" id="email" placeholder="name@university.edu" className="w-full bg-slate-50 dark:bg-surface-dark text-slate-900 dark:text-white border border-slate-300 dark:border-border-dark rounded-sm px-4 py-3 focus:outline-none focus:ring-1 focus:ring-primary dark:focus:ring-accent focus:border-primary dark:focus:border-accent transition-colors" />
-                </div>
-              </div>
-            </section>
-
-            {/* Section: Academic Profile */}
-            <section>
-              <h3 className="text-lg font-bold text-primary dark:text-white mb-6 flex items-center gap-2 uppercase tracking-wide text-sm">
-                <span className="material-symbols-outlined text-accent text-lg">school</span>
-                Academic Profile
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2 md:col-span-2">
-                  <label htmlFor="institution" className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Affiliated Institution / Organization</label>
-                  <input type="text" id="institution" className="w-full bg-slate-50 dark:bg-surface-dark text-slate-900 dark:text-white border border-slate-300 dark:border-border-dark rounded-sm px-4 py-3 focus:outline-none focus:ring-1 focus:ring-primary dark:focus:ring-accent focus:border-primary dark:focus:border-accent transition-colors" />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="role" className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Current Position</label>
-                  <input type="text" id="role" placeholder="e.g. PhD Candidate, Lecturer" className="w-full bg-slate-50 dark:bg-surface-dark text-slate-900 dark:text-white border border-slate-300 dark:border-border-dark rounded-sm px-4 py-3 focus:outline-none focus:ring-1 focus:ring-primary dark:focus:ring-accent focus:border-primary dark:focus:border-accent transition-colors" />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="field" className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Research Interest</label>
-                  <div className="relative">
-                    <select id="field" className="w-full appearance-none bg-slate-50 dark:bg-surface-dark text-slate-900 dark:text-white border border-slate-300 dark:border-border-dark rounded-sm px-4 py-3 pr-8 focus:outline-none focus:ring-1 focus:ring-primary dark:focus:ring-accent focus:border-primary dark:focus:border-accent transition-colors">
-                      <option>Biomechanics</option>
-                      <option>Applied Physiology</option>
-                      <option>Sports Psychology</option>
-                      <option>Performance Analysis</option>
-                      <option>Other</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500 dark:text-white">
-                      <span className="material-symbols-outlined text-sm">expand_more</span>
-                    </div>
-                  </div>
+                <div className="pt-2">
+                  <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{item.title}</h4>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed font-serif">{item.desc}</p>
                 </div>
               </div>
-            </section>
+            ))}
+          </div>
 
-            {/* Section: Logistics */}
-            <section>
-              <h3 className="text-lg font-bold text-primary dark:text-white mb-6 flex items-center gap-2 uppercase tracking-wide text-sm">
-                <span className="material-symbols-outlined text-accent text-lg">hotel</span>
-                Residency Options
-              </h3>
-              <div className="bg-slate-50 dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-sm p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <p className="text-base font-bold text-primary dark:text-white">Limited Accomodation Available</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 font-serif">will be confirmed later.</p>
-                </div>
-                {/* Toggle */}
-                <div className="flex items-center">
-                  <label htmlFor="accommodation-toggle" className="flex items-center cursor-pointer relative">
-                    <input type="checkbox" id="accommodation-toggle" className="sr-only peer" />
-                    <div className="w-14 h-7 bg-slate-300 dark:bg-border-dark peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
-                    <span className="ml-3 text-sm font-bold text-primary dark:text-white">Do you want accomodation?</span>
-                  </label>
-                </div>
-              </div>
-            </section>
+          {/* Action Button */}
+          <div className="bg-slate-50 dark:bg-surface-dark rounded-2xl p-8 border border-slate-200 dark:border-border-dark text-center shadow-sm">
+            <button
+              onClick={() => window.open('https://forms.gle/xkPYxwqSsipCxFVL6', '_blank')}
+              className="w-full sm:w-auto bg-primary hover:bg-primary-light text-white font-black px-10 py-5 rounded-lg text-lg tracking-widest uppercase shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-3 mx-auto"
+            >
+              <span>Click Here For Registration Form</span>
+              <span className="material-symbols-outlined">open_in_new</span>
+            </button>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-6 font-medium">
+              You will be redirected to Google Forms to complete your details.
+            </p>
+          </div>
 
-            {/* Form Actions */}
-            <div className="pt-6 flex flex-col-reverse sm:flex-row gap-4">
-              <button
-                type="button"
-                onClick={onCancel}
-                className="flex-1 py-3 px-6 rounded-sm border border-slate-300 dark:border-border-dark text-slate-700 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-surface-dark transition-colors uppercase tracking-wider text-sm"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={() => window.open('https://forms.gle/xkPYxwqSsipCxFVL6', '_blank')}
-                className="flex-[2] py-3 px-6 rounded-sm bg-primary hover:bg-primary-light text-white font-bold tracking-wider uppercase text-sm shadow-md transition-colors flex items-center justify-center gap-2"
-              >
-                <span>Proceed to Payment</span>
-                <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </button>
-            </div>
-          </form>
+          <div className="mt-12 text-center">
+            <button
+              onClick={onCancel}
+              className="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white transition-colors text-sm font-bold uppercase tracking-widest"
+            >
+              Return back to home
+            </button>
+          </div>
         </div>
       </main>
     </div>
