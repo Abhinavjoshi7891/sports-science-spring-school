@@ -127,6 +127,21 @@ const LandingPage: React.FC<LandingPageProps> = ({
     // Certificate Tilt & Confetti Logic
     const [certStyle, setCertStyle] = useState<React.CSSProperties>({});
 
+    // Contact Form State
+    const [contactForm, setContactForm] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+    });
+
+    const handleContactSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const { name, email, subject, message } = contactForm;
+        const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}`;
+        window.location.href = `mailto:riselabiitd@gmail.com?subject=${encodeURIComponent(subject || 'Inquiry from Spring School Website')}&body=${body}`;
+    };
+
     const handleCertMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const card = e.currentTarget;
         const rect = card.getBoundingClientRect();
@@ -792,19 +807,22 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                         loading="lazy"
                                         referrerPolicy="no-referrer-when-downgrade"
                                         title="IIT Delhi Location"
-                                        className="grayscale hover:grayscale-0 transition-all duration-500"
+                                        className="transition-all duration-500"
                                     ></iframe>
                                 </div>
                             </div>
 
                             {/* Right Column: Contact Form */}
                             <div className="bg-white dark:bg-surface-dark p-8 md:p-10 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700">
-                                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                                <form className="space-y-6" onSubmit={handleContactSubmit}>
                                     <div className="space-y-2">
                                         <label htmlFor="contact-name" className="text-sm font-bold text-slate-900 dark:text-white">Name</label>
                                         <input
                                             type="text"
                                             id="contact-name"
+                                            value={contactForm.name}
+                                            onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                                            required
                                             className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-[#003366] dark:focus:border-blue-400 transition-colors"
                                         />
                                     </div>
@@ -814,6 +832,9 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                         <input
                                             type="email"
                                             id="contact-email"
+                                            value={contactForm.email}
+                                            onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                                            required
                                             className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-[#003366] dark:focus:border-blue-400 transition-colors"
                                         />
                                     </div>
@@ -823,6 +844,8 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                         <input
                                             type="text"
                                             id="contact-subject"
+                                            value={contactForm.subject}
+                                            onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
                                             className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-[#003366] dark:focus:border-blue-400 transition-colors"
                                         />
                                     </div>
@@ -832,6 +855,9 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                         <textarea
                                             id="contact-message"
                                             rows={6}
+                                            value={contactForm.message}
+                                            onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                                            required
                                             className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-slate-700 focus:outline-none focus:border-[#003366] dark:focus:border-blue-400 transition-colors resize-none"
                                         ></textarea>
                                     </div>
