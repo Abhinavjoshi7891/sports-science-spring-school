@@ -86,7 +86,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     behavior: 'smooth'
                 });
             }
-        }, 4000); // Slightly slower for better readability
+        }, 2500); // Increased speed for faster transitions
 
         return () => clearInterval(interval);
     }, [isAutoScrolling, focusedSpeakerIdx, speakers.length]);
