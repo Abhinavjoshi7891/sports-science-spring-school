@@ -18,7 +18,6 @@ import cadLogo from '../assets/images/cad engineering services .png';
 interface LandingPageProps {
     onRegister: () => void;
     onDownload: (type: 'brochure' | 'syllabus') => void;
-    onAdminClick: () => void;
     theme: 'light' | 'dark';
     toggleTheme: () => void;
     speakers: Speaker[];
@@ -28,7 +27,6 @@ interface LandingPageProps {
 const LandingPage: React.FC<LandingPageProps> = ({
     onRegister,
     onDownload,
-    onAdminClick,
     theme,
     toggleTheme,
     speakers,
@@ -232,9 +230,16 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     {/* Logo */}
                     <div className="flex items-center gap-3">
                         <span className="material-symbols-outlined text-4xl text-[#003366] dark:text-blue-400">back_hand</span>
-                        <div className="text-primary dark:text-white flex flex-col leading-tight">
-                            <span className="text-3xl font-bold tracking-tight text-[#003366] dark:text-white">RISE <span className="font-light">Lab</span></span>
-                            <span className="text-[0.6rem] tracking-[0.2em] uppercase text-slate-500">Devices for Recovery</span>
+                        <div className="text-primary dark:text-white flex flex-col">
+                            <h1 className="flex items-baseline leading-none tracking-tight">
+                                <span className="text-3xl font-black text-[#003366] dark:text-white">RISE</span>
+                                <span className="text-3xl font-light text-[#003366] dark:text-white ml-1.5">Lab</span>
+                            </h1>
+                            <div className="flex justify-between w-full text-[0.42rem] font-bold uppercase text-slate-500 mt-0.5">
+                                {"DEVICES FOR RECOVERY".split("").map((char, i) => (
+                                    <span key={i}>{char === " " ? "\u00A0" : char}</span>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
@@ -927,9 +932,19 @@ const LandingPage: React.FC<LandingPageProps> = ({
                 <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12 mb-12">
                     {/* Column 1: Brand & Social */}
                     <div className="col-span-1 md:col-span-1">
-                        <div className="flex items-center gap-2 mb-6">
-                            <span className="material-symbols-outlined text-3xl text-white">back_hand</span>
-                            <span className="text-2xl font-bold">RISE Lab</span>
+                        <div className="flex items-center gap-3 mb-6">
+                            <span className="material-symbols-outlined text-4xl text-white">back_hand</span>
+                            <div className="flex flex-col">
+                                <h1 className="flex items-baseline leading-none tracking-tight">
+                                    <span className="text-2xl font-black text-white">RISE</span>
+                                    <span className="text-2xl font-light text-white ml-1.5">Lab</span>
+                                </h1>
+                                <div className="flex justify-between w-full text-[0.38rem] font-bold uppercase text-white/50 mt-0.5">
+                                    {"DEVICES FOR RECOVERY".split("").map((char, i) => (
+                                        <span key={i}>{char === " " ? "\u00A0" : char}</span>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                         <p className="text-white/60 text-sm leading-relaxed mb-4">
                             Rehab, Instrumentation & Sensory Engineering Lab, IIT Delhi
@@ -970,10 +985,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
                 {/* Copyright Bar */}
                 <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-white/20 text-xs border-t border-white/5 pt-8 gap-4">
                     <div>&copy; 2026 RISE Lab • IIT Delhi. All rights reserved.</div>
-                    <button onClick={onAdminClick} className="hover:text-white/70 transition-colors flex items-center gap-1">
-                        <span className="material-symbols-outlined text-xs">admin_panel_settings</span>
-                        Admin
-                    </button>
                 </div>
             </footer>
 

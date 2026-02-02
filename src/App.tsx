@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import LandingPage from './components/LandingPage';
 import RegistrationPage from './components/RegistrationPage';
 import DownloadPage from './components/DownloadPage';
-import AdminPanel from './components/AdminPanel';
 
 // Import Speaker Images
 import brigBibhuImg from './assets/images/Brig-Bibhu-Kalyan-Nayak-Director-NCSSR-SAI.png';
@@ -26,7 +25,7 @@ import abhinavJoshiImg from './assets/images/Abhinav-Joshi.png';
 import profBiswarupImg from './assets/images/Prof-Biswarup-Mukherjee-CBME-IIT-Delhi.png';
 import profDominicImg from './assets/images/Prof-Dominic-Farris-PHSS-University-of-Exeter.png';
 
-export type ViewState = 'landing' | 'register' | 'download' | 'admin';
+export type ViewState = 'landing' | 'register' | 'download';
 export type Theme = 'light' | 'dark';
 export type DocumentType = 'brochure' | 'syllabus';
 
@@ -226,10 +225,7 @@ const App: React.FC = () => {
     setCurrentView('landing');
   };
 
-  const navigateToAdmin = () => {
-    window.scrollTo(0, 0);
-    setCurrentView('admin');
-  }
+
 
   // -- Data Handlers --
   const handleLeadSubmit = (leadData: Omit<Lead, 'id' | 'date'>) => {
@@ -247,7 +243,6 @@ const App: React.FC = () => {
         <LandingPage
           onRegister={navigateToRegister}
           onDownload={navigateToDownload}
-          onAdminClick={navigateToAdmin}
           theme={theme}
           toggleTheme={toggleTheme}
           speakers={speakers}
@@ -270,18 +265,7 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
         />
       )}
-      {currentView === 'admin' && (
-        <AdminPanel
-          onExit={navigateToHome}
-          speakers={speakers}
-          setSpeakers={setSpeakers}
-          syllabus={syllabus}
-          setSyllabus={setSyllabus}
-          leads={leads}
-          theme={theme}
-          toggleTheme={toggleTheme}
-        />
-      )}
+
     </>
   );
 };
