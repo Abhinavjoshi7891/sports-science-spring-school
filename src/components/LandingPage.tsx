@@ -467,6 +467,86 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
                 </section>
 
+                {/* NEW: DISTINGUISHED FACULTY CAROUSEL */}
+                <section className="bg-slate-50 dark:bg-[#151515] py-20 border-y border-slate-200 dark:border-slate-800">
+                    <div className="max-w-7xl mx-auto px-4">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-display font-bold text-[#003366] dark:text-white mb-4">Distinguished Faculty</h2>
+                            <p className="text-slate-600 dark:text-slate-400">Our curriculum is delivered by world-renowned academics and industry practitioners.</p>
+                        </div>
+
+                        <div className="relative group px-0 md:px-12">
+                            {/* Navigation Buttons */}
+                            <button
+                                onClick={() => scrollSpeakers('left')}
+                                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 hidden md:flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
+                            >
+                                <span className="material-symbols-outlined">chevron_left</span>
+                            </button>
+
+                            <button
+                                onClick={() => scrollSpeakers('right')}
+                                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 hidden md:flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
+                            >
+                                <span className="material-symbols-outlined">chevron_right</span>
+                            </button>
+
+                            <div
+                                ref={speakerScrollRef}
+                                onMouseEnter={() => setIsAutoScrolling(false)}
+                                onMouseLeave={() => setIsAutoScrolling(true)}
+                                className="flex gap-12 overflow-x-auto snap-x snap-mandatory pb-16 pt-8 scrollbar-hide scroll-smooth px-[20%] md:px-[35%]"
+                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                            >
+                                {speakers.map((speaker, idx) => (
+                                    <a
+                                        key={idx}
+                                        href={speaker.link || '#'}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`snap-center shrink-0 w-[min(75vw,300px)] block group/card transition-all duration-500 speaker-card ${focusedSpeakerIdx === idx
+                                            ? 'scale-110 z-20'
+                                            : 'scale-90 opacity-60 grayscale blur-[1px]'
+                                            }`}
+                                    >
+                                        <div className={`bg-white dark:bg-surface-dark border p-5 shadow-sm transition-all duration-500 ease-out h-full rounded-2xl relative ${focusedSpeakerIdx === idx
+                                            ? 'border-primary dark:border-accent shadow-[0_0_30px_rgba(0,86,179,0.3)] dark:shadow-[0_0_30px_rgba(197,160,89,0.2)]'
+                                            : 'border-slate-100 dark:border-slate-800'
+                                            }`}>
+                                            {/* Image with Dynamic Effects */}
+                                            <div className="aspect-[4/5] w-full overflow-hidden bg-slate-200 dark:bg-slate-800 mb-6 rounded-xl shadow-inner relative overflow-hidden">
+                                                <img
+                                                    src={speaker.img}
+                                                    alt={speaker.name}
+                                                    className={`h-full w-full object-cover transition-all duration-700 ${focusedSpeakerIdx === idx ? 'scale-110 rotate-1' : 'scale-100'
+                                                        }`}
+                                                />
+                                                {focusedSpeakerIdx === idx && (
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"></div>
+                                                )}
+                                            </div>
+                                            <div className="text-center">
+                                                <h3 className={`text-xl font-display font-bold mb-1 transition-colors leading-tight ${focusedSpeakerIdx === idx ? 'text-primary dark:text-accent' : 'text-slate-400 dark:text-slate-500'
+                                                    }`}>
+                                                    {speaker.name}
+                                                </h3>
+                                                <p className={`text-xs uppercase tracking-widest font-black mb-2 transition-opacity ${focusedSpeakerIdx === idx ? 'text-[#c5a059] opacity-100' : 'text-slate-400 opacity-60'
+                                                    }`}>
+                                                    {speaker.org}
+                                                </p>
+                                                <div className={`h-1 w-12 bg-[#c5a059] mx-auto mb-3 rounded-full transition-all duration-500 ${focusedSpeakerIdx === idx ? 'w-20 opacity-100' : 'w-0 opacity-0'
+                                                    }`}></div>
+                                                <p className="text-sm text-slate-500 dark:text-slate-400 italic leading-tight px-2">{speaker.role}</p>
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* HIGHLIGHTS */}
                 <section className="max-w-7xl mx-auto px-4 pb-20 bg-[#e8eff6] dark:bg-background-dark py-16 rounded-3xl">
                     <h2 className="text-3xl font-black text-center text-primary dark:text-white mb-12 uppercase tracking-wide">Programme Highlights</h2>
@@ -596,86 +676,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 </div>
                             </div>
                         ))}
-                    </div>
-                </section>
-
-                {/* NEW: DISTINGUISHED FACULTY CAROUSEL */}
-                <section className="bg-slate-50 dark:bg-[#151515] py-20 border-y border-slate-200 dark:border-slate-800">
-                    <div className="max-w-7xl mx-auto px-4">
-                        <div className="text-center mb-12">
-                            <h2 className="text-3xl font-display font-bold text-[#003366] dark:text-white mb-4">Distinguished Faculty</h2>
-                            <p className="text-slate-600 dark:text-slate-400">Our curriculum is delivered by world-renowned academics and industry practitioners.</p>
-                        </div>
-
-                        <div className="relative group px-0 md:px-12">
-                            {/* Navigation Buttons */}
-                            <button
-                                onClick={() => scrollSpeakers('left')}
-                                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 hidden md:flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
-                            >
-                                <span className="material-symbols-outlined">chevron_left</span>
-                            </button>
-
-                            <button
-                                onClick={() => scrollSpeakers('right')}
-                                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-surface-dark rounded-full shadow-lg border border-slate-200 dark:border-slate-700 hidden md:flex items-center justify-center text-[#003366] dark:text-white hover:bg-[#003366] hover:text-white dark:hover:bg-blue-600 transition-colors"
-                            >
-                                <span className="material-symbols-outlined">chevron_right</span>
-                            </button>
-
-                            <div
-                                ref={speakerScrollRef}
-                                onMouseEnter={() => setIsAutoScrolling(false)}
-                                onMouseLeave={() => setIsAutoScrolling(true)}
-                                className="flex gap-12 overflow-x-auto snap-x snap-mandatory pb-16 pt-8 scrollbar-hide scroll-smooth px-[20%] md:px-[35%]"
-                                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                            >
-                                {speakers.map((speaker, idx) => (
-                                    <a
-                                        key={idx}
-                                        href={speaker.link || '#'}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={`snap-center shrink-0 w-[min(75vw,300px)] block group/card transition-all duration-500 speaker-card ${focusedSpeakerIdx === idx
-                                            ? 'scale-110 z-20'
-                                            : 'scale-90 opacity-60 grayscale blur-[1px]'
-                                            }`}
-                                    >
-                                        <div className={`bg-white dark:bg-surface-dark border p-5 shadow-sm transition-all duration-500 ease-out h-full rounded-2xl relative ${focusedSpeakerIdx === idx
-                                            ? 'border-primary dark:border-accent shadow-[0_0_30px_rgba(0,86,179,0.3)] dark:shadow-[0_0_30px_rgba(197,160,89,0.2)]'
-                                            : 'border-slate-100 dark:border-slate-800'
-                                            }`}>
-                                            {/* Image with Dynamic Effects */}
-                                            <div className="aspect-[4/5] w-full overflow-hidden bg-slate-200 dark:bg-slate-800 mb-6 rounded-xl shadow-inner relative overflow-hidden">
-                                                <img
-                                                    src={speaker.img}
-                                                    alt={speaker.name}
-                                                    className={`h-full w-full object-cover transition-all duration-700 ${focusedSpeakerIdx === idx ? 'scale-110 rotate-1' : 'scale-100'
-                                                        }`}
-                                                />
-                                                {focusedSpeakerIdx === idx && (
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"></div>
-                                                )}
-                                            </div>
-                                            <div className="text-center">
-                                                <h3 className={`text-xl font-display font-bold mb-1 transition-colors leading-tight ${focusedSpeakerIdx === idx ? 'text-primary dark:text-accent' : 'text-slate-400 dark:text-slate-500'
-                                                    }`}>
-                                                    {speaker.name}
-                                                </h3>
-                                                <p className={`text-xs uppercase tracking-widest font-black mb-2 transition-opacity ${focusedSpeakerIdx === idx ? 'text-[#c5a059] opacity-100' : 'text-slate-400 opacity-60'
-                                                    }`}>
-                                                    {speaker.org}
-                                                </p>
-                                                <div className={`h-1 w-12 bg-[#c5a059] mx-auto mb-3 rounded-full transition-all duration-500 ${focusedSpeakerIdx === idx ? 'w-20 opacity-100' : 'w-0 opacity-0'
-                                                    }`}></div>
-                                                <p className="text-sm text-slate-500 dark:text-slate-400 italic leading-tight px-2">{speaker.role}</p>
-                                            </div>
-
-                                        </div>
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
                     </div>
                 </section>
 
