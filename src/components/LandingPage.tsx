@@ -385,7 +385,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                     <div className="flex items-baseline gap-3">
                                         <span className="text-lg opacity-50 line-through decoration-white/50 font-medium">₹20,000</span>
                                         <p className="text-2xl font-bold font-display leading-none">₹17,000 + GST</p>
-                                        <p className="text-xs font-medium text-white/70">+ Accommodation charges</p>
+                                        <p className="text-xs font-medium text-white/70">+ Accommodation charges (if required)</p>
                                     </div>
                                 </div>
                             </div>
@@ -504,7 +504,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                         rel="noopener noreferrer"
                                         className={`snap-center shrink-0 w-[min(75vw,300px)] block group/card transition-all duration-500 speaker-card ${focusedSpeakerIdx === idx
                                             ? 'scale-110 z-20'
-                                            : 'scale-90 opacity-60 grayscale blur-[1px]'
+                                            : 'scale-90 opacity-60 blur-[1px]'
                                             }`}
                                     >
                                         <div className={`bg-white dark:bg-surface-dark border p-5 shadow-sm transition-all duration-500 ease-out h-full rounded-2xl relative ${focusedSpeakerIdx === idx
