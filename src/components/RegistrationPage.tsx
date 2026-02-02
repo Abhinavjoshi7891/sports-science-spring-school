@@ -61,7 +61,7 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
               </div>
               <div>
                 <p className="text-white font-bold text-sm uppercase tracking-wide">Tuition Fees</p>
-                <p className="text-white/80 font-serif">INR 17,000 + GST</p>
+                <p className="text-white/80 font-serif">INR 17,000 + 18% GST</p>
                 <p className="text-xs text-white/50 mt-0.5">Includes course materials & certification</p>
               </div>
             </div>
@@ -98,23 +98,18 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
             {[
               {
                 step: '1',
-                title: 'Registration Form',
-                desc: 'Fill out the official registration form with your personal and academic details.'
+                title: 'Official Payment Portal',
+                desc: 'Click “Proceed to Payment” below to fill registration form and pay registration fees of INR 17,000 + 18% GST.'
               },
               {
                 step: '2',
-                title: 'Payment Link',
-                desc: 'The registration team will reach out to your email address with a payment link from the official IIT DELHI CEP PAY Portal.'
+                title: 'Official IIT Delhi Account',
+                desc: 'Payment will be made to official IIT Delhi account (CEP office IIT Delhi).'
               },
               {
                 step: '3',
-                title: 'Save Confirmation',
-                desc: 'Keep a copy of the payment confirmation for your records.'
-              },
-              {
-                step: '4',
-                title: 'Final Confirmation',
-                desc: 'Once payment is confirmed, you will receive an email within 48 hours confirming your registration.'
+                title: 'Accommodation Details',
+                desc: 'Accommodation if required can be indicated in registration form. Charges will be extra - to be paid separately. Our team will reach out to you with details soon.'
               }
             ].map((item) => (
               <div key={item.step} className="flex gap-6 group">
@@ -132,14 +127,14 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
           {/* Action Button */}
           <div className="bg-slate-50 dark:bg-surface-dark rounded-2xl p-8 border border-slate-200 dark:border-border-dark text-center shadow-sm">
             <button
-              onClick={() => window.open('https://forms.gle/xkPYxwqSsipCxFVL6', '_blank')}
+              onClick={() => window.open('https://ceppay.iitd.ac.in/events/134', '_blank')}
               className="w-full sm:w-auto bg-primary hover:bg-primary-light text-white font-black px-10 py-5 rounded-lg text-lg tracking-widest uppercase shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-3 mx-auto"
             >
-              <span>Click Here For Registration Form</span>
-              <span className="material-symbols-outlined">open_in_new</span>
+              <span>Proceed to Payment</span>
+              <span className="material-symbols-outlined">payments</span>
             </button>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-6 font-medium">
-              You will be redirected to Google Forms to complete your details.
+              You will be redirected to the official IIT Delhi CEP Pay Portal.
             </p>
           </div>
 
