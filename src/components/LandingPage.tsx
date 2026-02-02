@@ -139,7 +139,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
         e.preventDefault();
         const { name, email, subject, message } = contactForm;
         const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}`;
-        window.location.href = `mailto:riselabiitd@gmail.com?subject=${encodeURIComponent(subject || 'Inquiry from Spring School Website')}&body=${body}`;
+        window.location.href = `mailto:sports_iitd_exeter@admin.iitd.ac.in?subject=${encodeURIComponent(subject || 'Inquiry from Spring School Website')}&body=${body}`;
     };
 
     const handleCertMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {

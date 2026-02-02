@@ -56,7 +56,7 @@ const ChatBot: React.FC = () => {
 
       let responseText = "I apologize, but I am currently unable to process your request.";
 
-      const response = await fetch("/api/chat", {
+      const response = await fetch("/api/chat.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
