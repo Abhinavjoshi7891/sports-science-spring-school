@@ -126,19 +126,37 @@ const LandingPage: React.FC<LandingPageProps> = ({
     // Certificate Tilt & Confetti Logic
     const [certStyle, setCertStyle] = useState<React.CSSProperties>({});
 
-    // Contact Form State
     const [contactForm, setContactForm] = useState({
         name: '',
         email: '',
         subject: '',
         message: ''
     });
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
-    const handleContactSubmit = (e: React.FormEvent) => {
+    const handleContactSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const { name, email, subject, message } = contactForm;
-        const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}`;
-        window.location.href = `mailto:sports_iitd_exeter@admin.iitd.ac.in?subject=${encodeURIComponent(subject || 'Inquiry from Spring School Website')}&body=${body}`;
+        setSubmitStatus('sending');
+
+        try {
+            const response = await fetch('/api/contact.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(contactForm)
+            });
+
+            if (response.ok) {
+                setSubmitStatus('success');
+                setContactForm({ name: '', email: '', subject: '', message: '' });
+                setTimeout(() => setSubmitStatus('idle'), 5000);
+            } else {
+                setSubmitStatus('error');
+                setTimeout(() => setSubmitStatus('idle'), 5000);
+            }
+        } catch (error) {
+            setSubmitStatus('error');
+            setTimeout(() => setSubmitStatus('idle'), 5000);
+        }
     };
 
     const handleCertMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -863,9 +881,14 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                         ></textarea>
                                     </div>
 
-                                    <button className="w-full bg-[#0b1120] dark:bg-blue-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 uppercase tracking-wide text-sm">
-                                        <span className="material-symbols-outlined text-lg">send</span>
-                                        Send Message
+                                    <button
+                                        disabled={submitStatus === 'sending'}
+                                        className={`w-full ${submitStatus === 'success' ? 'bg-green-600' : 'bg-[#0b1120]'} dark:bg-blue-600 text-white font-bold py-4 rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 uppercase tracking-wide text-sm disabled:opacity-50`}
+                                    >
+                                        <span className="material-symbols-outlined text-lg">
+                                            {submitStatus === 'sending' ? 'sync' : submitStatus === 'success' ? 'check_circle' : 'send'}
+                                        </span>
+                                        {submitStatus === 'sending' ? 'Sending...' : submitStatus === 'success' ? 'Message Sent!' : submitStatus === 'error' ? 'Error - Try Again' : 'Send Message'}
                                     </button>
                                 </form>
                             </div>
