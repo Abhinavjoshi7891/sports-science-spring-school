@@ -310,7 +310,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                     <span className="text-[#c5a059]">MACHINE LEARNING AND <br /> DATA ANALYTICS</span>
                                 </h1>
                                 <p className="text-white/90 text-lg md:text-xl font-medium max-w-lg drop-shadow-md lg:block hidden">
-                                    An intensive residential program for researchers, practitioners, and entrepreneurs at the cutting edge of sports technology.
+                                    An intensive, in-person program at IIT Delhi for researchers, practitioners, and students exploring the intersection of sports technology, machine learning, and data analytics.
                                 </p>
                             </div>
                         </div>
@@ -392,14 +392,16 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 </div>
                             </div>
 
-                            {/* Brochure Button */}
+                            {/* Schedule Button */}
                             <div className="w-full lg:w-auto mt-2 lg:mt-0">
-                                <button
-                                    onClick={() => onDownload('brochure')}
-                                    className="w-full lg:w-auto bg-white text-[#004494] hover:bg-slate-100 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition-colors whitespace-nowrap"
+                                <a
+                                    href="/syllabus.pdf"
+                                    download="syllabus.pdf"
+                                    className="w-full lg:w-auto bg-white text-[#004494] hover:bg-slate-100 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                                 >
-                                    Download Brochure
-                                </button>
+                                    <span className="material-symbols-outlined">calendar_today</span>
+                                    Detailed Schedule
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -544,12 +546,13 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             <h2 className="text-3xl font-display font-bold text-primary dark:text-white">Course Syllabus</h2>
                             <p className="text-slate-500 dark:text-slate-400 mt-2">Spring Semester 2026 • 5-Day Intensive</p>
                         </div>
-                        <button
-                            onClick={() => onDownload('syllabus')}
+                        <a
+                            href="/syllabus.pdf"
+                            download="syllabus.pdf"
                             className="text-[#003366] dark:text-blue-400 font-bold text-sm uppercase tracking-wider flex items-center gap-2 hover:underline"
                         >
-                            Download Full PDF <span className="material-symbols-outlined text-lg">download</span>
-                        </button>
+                            Detailed Schedule <span className="material-symbols-outlined text-lg">download</span>
+                        </a>
                     </div>
 
                     <div className="flex flex-col gap-6">
