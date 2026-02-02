@@ -12,7 +12,7 @@ import drShatarupaImg from './assets/images/Dr-Shatarupa-Chakraborty-NCSSR-SAI.p
 import drSubhraImg from './assets/images/Dr-Subhra-Chatterjee-NCSSR-SAI.png';
 import drTimImg from './assets/images/Dr-Tim-Podlogar-University-of-Exeter.png';
 import jamesRhodesImg from './assets/images/James-Rhodes.jpeg';
-import manikandanImg from './assets/images/Mr-Manikandan-TAs-at-IIT-Delhi.png';
+import manikandanImg from './assets/images/manikandan-new.jpeg';
 import nikhilImg from './assets/images/Mr-Nikhil-Chowdhary-TAs-at-IIT-Delhi.png';
 import sankarImg from './assets/images/Mr-Sankar-Balasubramanian-IISC.png';
 import tanishaImg from './assets/images/Ms-Tanisha-Majumdar-TAs-at-IIT-Delhi.png';
@@ -22,7 +22,7 @@ import profKKDeepakImg from './assets/images/Prof-K-K-Deepak-IIT-Delhi.png';
 import profKaushikImg from './assets/images/Prof-Kaushik-Mukherjee-ME-IIT-Delhi.png';
 import profMarkImg from './assets/images/Prof-Mark-Wilson-University-of-Exeter.png';
 import profShahidImg from './assets/images/Prof-Shahid-Malik-CeNSE-IIT-Delhi.png';
-import abhinavJoshiImg from './assets/images/abhinav-joshi.jpg';
+import abhinavJoshiImg from './assets/images/Abhinav-Joshi.png';
 import profBiswarupImg from './assets/images/Prof-Biswarup-Mukherjee-CBME-IIT-Delhi.png';
 import profDominicImg from './assets/images/Prof-Dominic-Farris-PHSS-University-of-Exeter.png';
 
@@ -156,7 +156,7 @@ const App: React.FC = () => {
   // -- Data State (Mocking a Database) --
   // We use localStorage to persist changes made in the Admin Panel
   const [speakers, setSpeakers] = useState<Speaker[]>(() => {
-    const saved = localStorage.getItem('speakers_v4');
+    const saved = localStorage.getItem('speakers_v5');
     return saved ? JSON.parse(saved) : INITIAL_SPEAKERS;
   });
 
@@ -177,7 +177,7 @@ const App: React.FC = () => {
     if (isOutdated) {
       setSpeakers(INITIAL_SPEAKERS);
     }
-    localStorage.setItem('speakers_v4', JSON.stringify(speakers));
+    localStorage.setItem('speakers_v5', JSON.stringify(speakers));
   }, [speakers]);
   useEffect(() => {
     localStorage.setItem('syllabus_v2', JSON.stringify(syllabus));

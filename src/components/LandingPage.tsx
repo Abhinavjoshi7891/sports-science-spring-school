@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ChatBot from './ChatBot';
 import { Speaker, SyllabusModule } from '../App';
 import confetti from 'canvas-confetti';
 import iitdLogo from '../assets/images/iitd-logo.png';
@@ -228,7 +227,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 {theme === 'dark' ? 'light_mode' : 'dark_mode'}
                             </span>
                         </button>
-                        <button onClick={onRegister} className="hidden sm:block bg-[#0056b3] text-white px-5 py-2 rounded-md font-bold text-sm hover:bg-[#004494] transition shadow-md whitespace-nowrap">
+                        <button onClick={(e) => e.preventDefault()} className="hidden sm:block bg-[#0056b3] text-white px-5 py-2 rounded-md font-bold text-sm hover:bg-[#004494] transition shadow-md whitespace-nowrap">
                             Spring School
                         </button>
 
@@ -261,11 +260,10 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             <button
                                 onClick={() => {
                                     setMobileMenuOpen(false);
-                                    onRegister();
                                 }}
                                 className="mt-4 w-full bg-[#0056b3] text-white py-4 rounded-lg font-bold text-lg shadow-lg"
                             >
-                                Register for Spring School
+                                Spring School
                             </button>
                         </div>
                     </div>
@@ -944,7 +942,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
             </footer>
 
             {/* Floating Chat Bot */}
-            <ChatBot />
 
             {/* Course Syllabus Modal */}
             {activeModule && (
