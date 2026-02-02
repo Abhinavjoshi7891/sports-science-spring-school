@@ -350,7 +350,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                         </div>
 
                         {/* Registration Card - Absolute Positioned */}
-                        <div className="hidden lg:block absolute top-1/2 right-12 -translate-y-[45%] w-[380px] z-20">
+                        <div className="hidden lg:block absolute top-[42%] right-12 -translate-y-1/2 w-[380px] z-20">
                             <div className="bg-white dark:bg-surface-dark rounded-2xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-700">
                                 <div className="bg-[#0056b3] dark:bg-[#003366] p-6 text-center">
                                     <h3 className="text-white font-bold text-2xl uppercase tracking-wide">Registration Open Now</h3>
@@ -395,7 +395,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
 
                     {/* Bottom Info Bar - Floating/Overlapping */}
-                    <div className="relative -mt-10 lg:-mt-16 z-30 px-4 lg:px-12 pointer-events-none">
+                    <div className="relative mt-8 lg:-mt-20 z-30 px-4 lg:px-12 pointer-events-none">
                         <div className="bg-[#004494] dark:bg-[#003366] rounded-2xl shadow-2xl p-6 md:p-8 lg:p-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-white pointer-events-auto max-w-full lg:max-w-[85%] mx-auto lg:ml-0">
 
                             {/* Starts */}
@@ -429,12 +429,12 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             {/* Schedule Button */}
                             <div className="w-full lg:w-auto mt-2 lg:mt-0">
                                 <a
-                                    href="/syllabus.pdf"
-                                    download="syllabus.pdf"
+                                    href="/brochure.pdf"
+                                    download="brochure.pdf"
                                     className="w-full lg:w-auto bg-white text-[#004494] hover:bg-slate-100 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                                 >
-                                    <span className="material-symbols-outlined">calendar_today</span>
-                                    Detailed Schedule
+                                    <span className="material-symbols-outlined">download</span>
+                                    Download Brochure
                                 </a>
                             </div>
                         </div>
@@ -661,11 +661,11 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             <p className="text-slate-500 dark:text-slate-400 mt-2">Spring Semester 2026 • 5-Day Intensive</p>
                         </div>
                         <a
-                            href="/syllabus.pdf"
-                            download="syllabus.pdf"
+                            href="/brochure.pdf"
+                            download="brochure.pdf"
                             className="text-[#003366] dark:text-blue-400 font-bold text-sm uppercase tracking-wider flex items-center gap-2 hover:underline"
                         >
-                            Detailed Schedule <span className="material-symbols-outlined text-lg">download</span>
+                            Download Brochure <span className="material-symbols-outlined text-lg">download</span>
                         </a>
                     </div>
 

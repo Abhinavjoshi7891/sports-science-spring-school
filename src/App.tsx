@@ -24,6 +24,7 @@ import profShahidImg from './assets/images/Prof-Shahid-Malik-CeNSE-IIT-Delhi.png
 import abhinavJoshiImg from './assets/images/Abhinav-Joshi.png';
 import profBiswarupImg from './assets/images/Prof-Biswarup-Mukherjee-CBME-IIT-Delhi.png';
 import profDominicImg from './assets/images/Prof-Dominic-Farris-PHSS-University-of-Exeter.png';
+import drTomImg from './assets/images/Dr. Tom.jpg';
 
 export type ViewState = 'landing' | 'register' | 'download';
 export type Theme = 'light' | 'dark';
@@ -63,6 +64,7 @@ const INITIAL_SPEAKERS: Speaker[] = [
   { id: '4', name: 'Prof. Joanna Bowtell', org: 'PHSS, UNIV. OF EXETER', role: 'Professor of Applied Physiology', img: profJoannaImg, link: 'https://experts.exeter.ac.uk/20502-joanna-bowtell' },
   { id: '2', name: 'Prof. Mark Wilson', org: 'UNIV. OF EXETER', role: 'Professor of Performance Psychology', img: profMarkImg, link: 'https://experts.exeter.ac.uk/1051-mark-wilson' },
   { id: '20', name: 'Prof. Dominic Farris', org: 'PHSS, UNIV. OF EXETER', role: 'Associate Professor', img: profDominicImg, link: 'https://experts.exeter.ac.uk/27162-dominic-farris' },
+  { id: '21', name: 'Dr. Tom Elliott', org: 'UNIV. OF EXETER', role: 'Data Analyst', img: drTomImg, link: 'https://experts.exeter.ac.uk/25291-tom-elliott' },
   { id: '6', name: 'Prof. Chris Byrne', org: 'PHSS, UNIV. OF EXETER', role: 'Associate Professor', img: drChrisImg, link: 'https://experts.exeter.ac.uk/1040-chris-byrne' },
   { id: '1', name: 'Prof. Deepak Joshi', org: 'CBME, IIT DELHI', role: 'Associate Professor', img: profDeepakJoshiImg, link: 'https://cbme.iitd.ac.in/faculty-profile/15' },
   { id: '7', name: 'Prof. Kaushik Mukherjee', org: 'ME, IIT DELHI', role: 'Associate Professor', img: profKaushikImg, link: 'https://mech.iitd.ac.in/faculty-profile/192' },
@@ -155,7 +157,7 @@ const App: React.FC = () => {
   // -- Data State (Mocking a Database) --
   // We use localStorage to persist changes made in the Admin Panel
   const [speakers, setSpeakers] = useState<Speaker[]>(() => {
-    const saved = localStorage.getItem('speakers_v8');
+    const saved = localStorage.getItem('speakers_v9');
     return saved ? JSON.parse(saved) : INITIAL_SPEAKERS;
   });
 
@@ -171,12 +173,12 @@ const App: React.FC = () => {
 
   // Save to local storage whenever data changes
   useEffect(() => {
-    // Force refresh if the data is outdated (checking for James Rhodes' FA org)
-    const isOutdated = !speakers.some(s => s.name === 'Dr. James Rhodes' && s.org === 'THE FOOTBALL ASSOCIATION');
+    // Force refresh if the data is outdated (checking for Dr. Tom Elliott)
+    const isOutdated = !speakers.some(s => s.name === 'Dr. Tom Elliott');
     if (isOutdated) {
       setSpeakers(INITIAL_SPEAKERS);
     }
-    localStorage.setItem('speakers_v8', JSON.stringify(speakers));
+    localStorage.setItem('speakers_v9', JSON.stringify(speakers));
   }, [speakers]);
   useEffect(() => {
     localStorage.setItem('syllabus_v4', JSON.stringify(syllabus));
