@@ -9,7 +9,7 @@ interface RegistrationPageProps {
 const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, toggleTheme }) => {
   return (
     <div className="flex-grow w-full h-screen flex flex-col lg:flex-row overflow-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-body transition-colors duration-300">
-      {/* Left Column: Program Summary */}
+      {/* Left Column: Programme Summary */}
       <aside className="w-full lg:w-[450px] bg-primary dark:bg-surface-dark border-b lg:border-b-0 lg:border-r border-primary-light dark:border-border-dark flex-shrink-0 flex flex-col relative h-[300px] lg:h-full transition-colors duration-300 text-white">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
 
@@ -31,11 +31,11 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
             </div>
             <h1 className="text-3xl lg:text-4xl font-display font-bold leading-tight mb-4 text-white">Spring School in Sports Technology, Machine Learning and Data Analytics</h1>
             <p className="text-white/70 text-base leading-relaxed font-serif">
-              An intensive residential program for researchers and practitioners.
+              An intensive residential programme for researchers and practitioners.
             </p>
           </div>
 
-          {/* Program Key Facts */}
+          {/* Programme Key Facts */}
           <div className="space-y-6 mb-8 border-t border-white/10 pt-8">
             <div className="flex gap-4">
               <div className="text-accent mt-1">

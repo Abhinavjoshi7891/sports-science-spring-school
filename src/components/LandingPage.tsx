@@ -50,12 +50,27 @@ const LandingPage: React.FC<LandingPageProps> = ({
     const scrollSpeakers = (direction: 'left' | 'right') => {
         if (speakerScrollRef.current) {
             const container = speakerScrollRef.current;
-            const scrollAmount = container.offsetWidth * 0.8;
+            const cards = container.querySelectorAll('.speaker-card');
+            if (cards.length === 0) return;
+
+            let targetIdx;
             if (direction === 'left') {
-                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                targetIdx = focusedSpeakerIdx - 1;
+                if (targetIdx < 0) targetIdx = cards.length - 1;
             } else {
-                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                targetIdx = focusedSpeakerIdx + 1;
+                if (targetIdx >= cards.length) targetIdx = 0;
             }
+
+            const targetCard = cards[targetIdx] as HTMLElement;
+            const containerWidth = container.offsetWidth;
+            const cardWidth = targetCard.offsetWidth;
+            const scrollTarget = targetCard.offsetLeft - (containerWidth / 2) + (cardWidth / 2);
+
+            container.scrollTo({
+                left: scrollTarget,
+                behavior: 'smooth'
+            });
         }
     };
 
@@ -215,13 +230,11 @@ const LandingPage: React.FC<LandingPageProps> = ({
             <nav className="sticky top-0 z-50 w-full bg-white dark:bg-surface-dark border-b border-slate-200 dark:border-border-dark px-6 py-4 shadow-sm">
                 <div className="mx-auto max-w-7xl flex items-center justify-between">
                     {/* Logo */}
-                    <div className="flex items-center gap-2">
-                        <div className="text-primary dark:text-white flex flex-col leading-none">
-                            <div className="flex items-center gap-2">
-                                <span className="material-symbols-outlined text-4xl text-[#003366] dark:text-blue-400">back_hand</span>
-                                <span className="text-3xl font-bold tracking-tight text-[#003366] dark:text-white">RISE <span className="font-light">Lab</span></span>
-                            </div>
-                            <span className="text-[0.6rem] tracking-[0.2em] uppercase text-slate-500 pl-12">Devices for Recovery</span>
+                    <div className="flex items-center gap-3">
+                        <span className="material-symbols-outlined text-4xl text-[#003366] dark:text-blue-400">back_hand</span>
+                        <div className="text-primary dark:text-white flex flex-col leading-tight">
+                            <span className="text-3xl font-bold tracking-tight text-[#003366] dark:text-white">RISE <span className="font-light">Lab</span></span>
+                            <span className="text-[0.6rem] tracking-[0.2em] uppercase text-slate-500">Devices for Recovery</span>
                         </div>
                     </div>
 
@@ -326,7 +339,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                     <span className="text-[#c5a059]">MACHINE LEARNING AND <br /> DATA ANALYTICS</span>
                                 </h1>
                                 <p className="text-white/90 text-lg md:text-xl font-medium max-w-lg drop-shadow-md lg:block hidden">
-                                    An intensive, in-person program at IIT Delhi for researchers, practitioners, and students exploring the intersection of sports technology, machine learning, and data analytics.
+                                    An intensive, in-person programme at IIT Delhi for researchers, practitioners, and students exploring the intersection of sports technology, machine learning, and data analytics.
                                 </p>
                             </div>
                         </div>
@@ -450,7 +463,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                 {/* BANNER 1: DESIGNED FOR */}
                 <section className="w-full">
                     <div className="bg-[#0056b3] dark:bg-[#003366] py-5 text-center shadow-md">
-                        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider">This Program Is Specially Designed For</h2>
+                        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider">This Programme Is Specially Designed For</h2>
                     </div>
                     <div className="bg-[#f0f4f8] dark:bg-black/20 py-10 border-b border-slate-200 dark:border-slate-800">
                         <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-4 md:gap-6">
@@ -466,7 +479,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                 {/* BANNER 2: FACULTY FROM */}
                 <section className="w-full mb-16">
                     <div className="bg-[#0056b3] dark:bg-[#003366] py-5 text-center shadow-md">
-                        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider">Top International Faculty and Scientist From</h2>
+                        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider">Top International Faculties and Scientists From</h2>
                     </div>
                     <div className="bg-white dark:bg-surface-dark py-10 shadow-inner">
                         <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center items-center gap-8 md:gap-20">
@@ -818,14 +831,14 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 {/* Map */}
                                 <div className="w-full h-[300px] rounded-xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-700 mt-8 relative bg-slate-100">
                                     <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.604620584766!2d77.18990667616116!3d28.55160877570908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d810475f457%3A0xe05391d1844b7029!2sIndian%20Institute%20of%20Technology%20Delhi!5e0!3m2!1sen!2sin!4v1716382903370!5m2!1sen!2sin"
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.7806509291026!2d77.1929348!3d28.546312099999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d8d3afde403%3A0x750c0bc89f640de7!2sRISE%20Lab!5e0!3m2!1sen!2sin!4v1770036020309!5m2!1sen!2sin"
                                         width="100%"
                                         height="100%"
                                         style={{ border: 0 }}
                                         allowFullScreen={true}
                                         loading="lazy"
                                         referrerPolicy="no-referrer-when-downgrade"
-                                        title="IIT Delhi Location"
+                                        title="RISE Lab Location"
                                         className="transition-all duration-500"
                                     ></iframe>
                                 </div>

@@ -64,12 +64,12 @@ const INITIAL_SPEAKERS: Speaker[] = [
   { id: '4', name: 'Prof. Joanna Bowtell', org: 'PHSS, UNIV. OF EXETER', role: 'Professor of Applied Physiology', img: profJoannaImg, link: 'https://experts.exeter.ac.uk/20502-joanna-bowtell' },
   { id: '2', name: 'Prof. Mark Wilson', org: 'UNIV. OF EXETER', role: 'Professor of Performance Psychology', img: profMarkImg, link: 'https://experts.exeter.ac.uk/1051-mark-wilson' },
   { id: '20', name: 'Prof. Dominic Farris', org: 'PHSS, UNIV. OF EXETER', role: 'Associate Professor', img: profDominicImg, link: 'https://experts.exeter.ac.uk/27162-dominic-farris' },
-  { id: '6', name: 'Dr. Chris Byrne', org: 'PHSS, UNIV. OF EXETER', role: 'Associate Professor', img: drChrisImg, link: 'https://experts.exeter.ac.uk/1040-chris-byrne' },
+  { id: '6', name: 'Prof. Chris Byrne', org: 'PHSS, UNIV. OF EXETER', role: 'Associate Professor', img: drChrisImg, link: 'https://experts.exeter.ac.uk/1040-chris-byrne' },
   { id: '1', name: 'Prof. Deepak Joshi', org: 'CBME, IIT DELHI', role: 'Associate Professor', img: profDeepakJoshiImg, link: 'https://cbme.iitd.ac.in/faculty-profile/15' },
   { id: '7', name: 'Prof. Kaushik Mukherjee', org: 'ME, IIT DELHI', role: 'Associate Professor', img: profKaushikImg, link: 'https://mech.iitd.ac.in/faculty-profile/192' },
-  { id: '8', name: 'Dr. Tim Podlogar', org: 'UNIV. OF EXETER', role: 'Research Fellow & Nutritionist', img: drTimImg, link: 'https://experts.exeter.ac.uk/43996-tim-podlogar' },
-  { id: '13', name: 'James Rhodes', org: 'THE FOOTBALL ASSOCIATION', role: 'Data Scientist', img: jamesRhodesImg, link: 'https://www.linkedin.com/in/james-rhodes-05248546/?originalSubdomain=uk' },
-  { id: '9', name: 'Prof. Shahid Malik', org: 'CeNSE, IIT DELHI', role: 'Professor', img: profShahidImg, link: 'https://web.iitd.ac.in/~smalik/' },
+  { id: '8', name: 'Prof. Tim Podlogar', org: 'UNIV. OF EXETER', role: 'Research Fellow & Nutritionist', img: drTimImg, link: 'https://experts.exeter.ac.uk/43996-tim-podlogar' },
+  { id: '13', name: 'Dr. James Rhodes', org: 'THE FOOTBALL ASSOCIATION', role: 'Data Scientist', img: jamesRhodesImg, link: 'https://www.linkedin.com/in/james-rhodes-05248546/?originalSubdomain=uk' },
+  { id: '9', name: 'Prof. Shahid Malik', org: 'SeNSE, IIT DELHI', role: 'Professor', img: profShahidImg, link: 'https://web.iitd.ac.in/~smalik/' },
   { id: '19', name: 'Prof. Biswarup Mukherjee', org: 'CBME, IIT DELHI', role: 'Associate Professor', img: profBiswarupImg, link: 'https://cbme.iitd.ac.in/faculty-profile/3' },
   { id: '12', name: 'Dr. Subhra Chatterjee', org: 'NCSSR, SAI', role: 'Scientist', img: drSubhraImg, link: 'https://in.linkedin.com/in/dr-subhra-chatterjee-7a3555154' },
   { id: '11', name: 'Dr. Shatarupa Chakraborty', org: 'NCSSR, SAI', role: 'Scientist', img: drShatarupaImg, link: 'https://in.linkedin.com/in/dr-shatarupa-chakraborty-6b120590' },
@@ -99,7 +99,7 @@ const INITIAL_SYLLABUS: SyllabusModule[] = [
   {
     id: 'D2',
     title: 'Biosensing in Sport & Exercise 2',
-    lead: 'Prof. Joanna Bowtell, Dr. Chris Byrne, Mr. Manish Rana',
+    lead: 'Prof. Joanna Bowtell, Prof. Chris Byrne, Mr. Manish Rana',
     time: 'Day 2 • 3rd March, Tuesday',
     topics: [
       'Evidence and Technology-based Approach to Sports Nutrition',
@@ -112,7 +112,7 @@ const INITIAL_SYLLABUS: SyllabusModule[] = [
   {
     id: 'D3',
     title: 'Holi Break & Networking',
-    lead: 'Program Faculty & IIT Delhi',
+    lead: 'Programme Faculty & IIT Delhi',
     time: 'Day 3 • 4th March, Wednesday',
     topics: [
       'No sessions scheduled (Holi Festival Holiday)',
@@ -130,14 +130,14 @@ const INITIAL_SYLLABUS: SyllabusModule[] = [
       'Sports Wearables: Neural technologies (EEG and fNIRs)',
       'AR and VR technologies for sports training',
       'Hands-on VR: Environment and Game Design',
-      'Role of Simulation and Modeling in Sports',
+      'Role of Simulation and Modelling in Sports',
       'Athlete Stress Management: Psychology & Tech Interventions'
     ]
   },
   {
     id: 'D5',
     title: 'AI, ML and Data Science',
-    lead: 'Prof. Biswarup Mukherjee, Prof. Deepak Joshi, James Rhodes',
+    lead: 'Prof. Biswarup Mukherjee, Prof. Deepak Joshi, Dr. James Rhodes',
     time: 'Day 5 • 6th March, Friday',
     topics: [
       'Introduction to AI and ML Applications in Sports',
@@ -156,12 +156,12 @@ const App: React.FC = () => {
   // -- Data State (Mocking a Database) --
   // We use localStorage to persist changes made in the Admin Panel
   const [speakers, setSpeakers] = useState<Speaker[]>(() => {
-    const saved = localStorage.getItem('speakers_v5');
+    const saved = localStorage.getItem('speakers_v8');
     return saved ? JSON.parse(saved) : INITIAL_SPEAKERS;
   });
 
   const [syllabus, setSyllabus] = useState<SyllabusModule[]>(() => {
-    const saved = localStorage.getItem('syllabus_v2');
+    const saved = localStorage.getItem('syllabus_v4');
     return saved ? JSON.parse(saved) : INITIAL_SYLLABUS;
   });
 
@@ -173,14 +173,14 @@ const App: React.FC = () => {
   // Save to local storage whenever data changes
   useEffect(() => {
     // Force refresh if the data is outdated (checking for James Rhodes' FA org)
-    const isOutdated = !speakers.some(s => s.name === 'James Rhodes' && s.org === 'THE FOOTBALL ASSOCIATION');
+    const isOutdated = !speakers.some(s => s.name === 'Dr. James Rhodes' && s.org === 'THE FOOTBALL ASSOCIATION');
     if (isOutdated) {
       setSpeakers(INITIAL_SPEAKERS);
     }
-    localStorage.setItem('speakers_v5', JSON.stringify(speakers));
+    localStorage.setItem('speakers_v8', JSON.stringify(speakers));
   }, [speakers]);
   useEffect(() => {
-    localStorage.setItem('syllabus_v2', JSON.stringify(syllabus));
+    localStorage.setItem('syllabus_v4', JSON.stringify(syllabus));
   }, [syllabus]);
   useEffect(() => { localStorage.setItem('leads', JSON.stringify(leads)); }, [leads]);
 
