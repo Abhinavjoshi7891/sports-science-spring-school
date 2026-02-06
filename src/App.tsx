@@ -25,6 +25,8 @@ import abhinavJoshiImg from './assets/images/Abhinav-Joshi.png';
 import profBiswarupImg from './assets/images/Prof-Biswarup-Mukherjee-CBME-IIT-Delhi.png';
 import profDominicImg from './assets/images/Prof-Dominic-Farris-PHSS-University-of-Exeter.png';
 import drTomImg from './assets/images/Dr. Tom.jpg';
+import drSahanaImg from './assets/images/Dr Sahana Gopal.jpeg';
+import durvaVahiaImg from './assets/images/Durva Vahia.jpeg';
 
 export type ViewState = 'landing' | 'register' | 'download';
 export type Theme = 'light' | 'dark';
@@ -76,6 +78,8 @@ const INITIAL_SPEAKERS: Speaker[] = [
   { id: '11', name: 'Dr. Shatarupa Chakraborty', org: 'NCSSR, SAI', role: 'Scientist', img: drShatarupaImg, link: 'https://in.linkedin.com/in/dr-shatarupa-chakraborty-6b120590' },
   { id: '10', name: 'Dr. Manish Rana', org: 'PCI', role: 'Director, Paralympics Committee of India', img: drManishImg, link: 'https://in.linkedin.com/in/manish-rana' },
   { id: '5', name: 'Prof. K. K. Deepak', org: 'IIT DELHI', role: 'Professor of Physiology', img: profKKDeepakImg, link: 'https://cbme.iitd.ac.in/faculty-profile/21' },
+  { id: '22', name: 'Dr. Sahana Gopal', org: 'UNRACK', role: 'Founder & High Performance S&C Consultant', img: drSahanaImg, link: 'https://www.linkedin.com/in/sahanagopal/' },
+  { id: '23', name: 'Durva Vahia', org: 'RELIANCE FOUNDATION YOUTH SPORTS', role: 'Performance Manager - Athletics', img: durvaVahiaImg, link: 'https://www.linkedin.com/in/durva-vahia-72364988/' },
   { id: '14', name: 'Mr. Sankar Balasubramanian', org: 'IISC', role: 'Research Scholar', img: sankarImg, link: 'https://in.linkedin.com/in/sankar4' },
   { id: '15', name: 'Mr. Manikandan', org: 'IIT DELHI', role: 'TA at IIT Delhi', img: manikandanImg, link: 'https://in.linkedin.com/in/manikandaniitd' },
   { id: '17', name: 'Ms. Tanisha Majumdar', org: 'IIT DELHI', role: 'TA at IIT Delhi', img: tanishaImg, link: 'https://in.linkedin.com/in/tanisha-majumdar-17a6a4206' },
@@ -157,7 +161,7 @@ const App: React.FC = () => {
   // -- Data State (Mocking a Database) --
   // We use localStorage to persist changes made in the Admin Panel
   const [speakers, setSpeakers] = useState<Speaker[]>(() => {
-    const saved = localStorage.getItem('speakers_v9');
+    const saved = localStorage.getItem('speakers_v12');
     return saved ? JSON.parse(saved) : INITIAL_SPEAKERS;
   });
 
@@ -173,12 +177,12 @@ const App: React.FC = () => {
 
   // Save to local storage whenever data changes
   useEffect(() => {
-    // Force refresh if the data is outdated (checking for Dr. Tom Elliott)
-    const isOutdated = !speakers.some(s => s.name === 'Dr. Tom Elliott');
+    // Force refresh if the data is outdated (checking for Durva Vahia's LinkedIn)
+    const isOutdated = !speakers.some(s => s.name === 'Durva Vahia' && s.link?.includes('72364988'));
     if (isOutdated) {
       setSpeakers(INITIAL_SPEAKERS);
     }
-    localStorage.setItem('speakers_v9', JSON.stringify(speakers));
+    localStorage.setItem('speakers_v12', JSON.stringify(speakers));
   }, [speakers]);
   useEffect(() => {
     localStorage.setItem('syllabus_v4', JSON.stringify(syllabus));
