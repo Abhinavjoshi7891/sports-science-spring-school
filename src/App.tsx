@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LandingPage from './components/LandingPage';
 import RegistrationPage from './components/RegistrationPage';
-import DownloadPage from './components/DownloadPage';
 
 // Import Speaker Images
 import brigBibhuImg from './assets/images/Brig-Bibhu-Kalyan-Nayak-Director-NCSSR-SAI.png';
@@ -18,6 +17,7 @@ import tanishaImg from './assets/images/Ms-Tanisha-Majumdar-TAs-at-IIT-Delhi.png
 import profDeepakJoshiImg from './assets/images/Prof-Deepak-Joshi-CBME-IIT-Delhi.png';
 import profJoannaImg from './assets/images/Prof-Joanna-Bowtell-PHSS-University-of-Exeter.png';
 import profKKDeepakImg from './assets/images/Prof-K-K-Deepak-IIT-Delhi.png';
+import alokPandeyImg from './assets/images/Mr. Alok Pandey.jpg';
 import profKaushikImg from './assets/images/Prof-Kaushik-Mukherjee-ME-IIT-Delhi.png';
 import profMarkImg from './assets/images/Prof-Mark-Wilson-University-of-Exeter.png';
 import profShahidImg from './assets/images/Prof-Shahid-Malik-CeNSE-IIT-Delhi.png';
@@ -30,7 +30,6 @@ import durvaVahiaImg from './assets/images/Durva Vahia.jpeg';
 
 export type ViewState = 'landing' | 'register' | 'download';
 export type Theme = 'light' | 'dark';
-export type DocumentType = 'brochure' | 'syllabus';
 
 // Types for our Data
 export interface Speaker {
@@ -70,14 +69,15 @@ const INITIAL_SPEAKERS: Speaker[] = [
   { id: '6', name: 'Prof. Chris Byrne', org: 'PHSS, UNIV. OF EXETER', role: 'Associate Professor', img: drChrisImg, link: 'https://experts.exeter.ac.uk/1040-chris-byrne' },
   { id: '1', name: 'Prof. Deepak Joshi', org: 'CBME, IIT DELHI', role: 'Associate Professor', img: profDeepakJoshiImg, link: 'https://cbme.iitd.ac.in/faculty-profile/15' },
   { id: '7', name: 'Prof. Kaushik Mukherjee', org: 'ME, IIT DELHI', role: 'Associate Professor', img: profKaushikImg, link: 'https://mech.iitd.ac.in/faculty-profile/192' },
-  { id: '8', name: 'Prof. Tim Podlogar', org: 'UNIV. OF EXETER', role: 'Research Fellow & Nutritionist', img: drTimImg, link: 'https://experts.exeter.ac.uk/43996-tim-podlogar' },
+  { id: '8', name: 'Prof. Tim Podlogar', org: 'UNIV. OF EXETER', role: 'Research Fellow & Nutritionist', img: drTimImg, link: 'https://tpodlogar.com/' },
   { id: '13', name: 'Dr. James Rhodes', org: 'THE FOOTBALL ASSOCIATION', role: 'Data Scientist', img: jamesRhodesImg, link: 'https://www.linkedin.com/in/james-rhodes-05248546/?originalSubdomain=uk' },
-  { id: '9', name: 'Prof. Shahid Malik', org: 'SeNSE, IIT DELHI', role: 'Professor', img: profShahidImg, link: 'https://web.iitd.ac.in/~smalik/' },
+  { id: '9', name: 'Prof. Shahid Malik', org: 'CeNSE, IIT DELHI', role: 'Professor', img: profShahidImg, link: 'https://web.iitd.ac.in/~smalik/' },
   { id: '19', name: 'Prof. Biswarup Mukherjee', org: 'CBME, IIT DELHI', role: 'Associate Professor', img: profBiswarupImg, link: 'https://cbme.iitd.ac.in/faculty-profile/3' },
   { id: '12', name: 'Dr. Subhra Chatterjee', org: 'NCSSR, SAI', role: 'Scientist', img: drSubhraImg, link: 'https://in.linkedin.com/in/dr-subhra-chatterjee-7a3555154' },
   { id: '11', name: 'Dr. Shatarupa Chakraborty', org: 'NCSSR, SAI', role: 'Scientist', img: drShatarupaImg, link: 'https://in.linkedin.com/in/dr-shatarupa-chakraborty-6b120590' },
   { id: '10', name: 'Dr. Manish Rana', org: 'PCI', role: 'Director, Paralympics Committee of India', img: drManishImg, link: 'https://in.linkedin.com/in/manish-rana' },
   { id: '5', name: 'Prof. K. K. Deepak', org: 'IIT DELHI', role: 'Professor of Physiology', img: profKKDeepakImg, link: 'https://cbme.iitd.ac.in/faculty-profile/21' },
+  { id: '25', name: 'Mr. Alok Pandey', org: 'AIC IIT DELHI', role: 'Chief Executive Officer', img: alokPandeyImg, link: 'https://www.linkedin.com/in/alok-pandey-0b1233117/' },
   { id: '22', name: 'Dr. Sahana Gopal', org: 'UNRACK', role: 'Founder & High Performance S&C Consultant', img: drSahanaImg, link: 'https://www.linkedin.com/in/sahanagopal/' },
   { id: '23', name: 'Durva Vahia', org: 'RELIANCE FOUNDATION YOUTH SPORTS', role: 'Performance Manager - Athletics', img: durvaVahiaImg, link: 'https://www.linkedin.com/in/durva-vahia-72364988/' },
   { id: '14', name: 'Mr. Sankar Balasubramanian', org: 'IISC', role: 'Research Scholar', img: sankarImg, link: 'https://in.linkedin.com/in/sankar4' },
@@ -156,12 +156,11 @@ const INITIAL_SYLLABUS: SyllabusModule[] = [
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('landing');
-  const [downloadDocType, setDownloadDocType] = useState<DocumentType>('brochure');
 
   // -- Data State (Mocking a Database) --
   // We use localStorage to persist changes made in the Admin Panel
   const [speakers, setSpeakers] = useState<Speaker[]>(() => {
-    const saved = localStorage.getItem('speakers_v12');
+    const saved = localStorage.getItem('speakers_v15');
     return saved ? JSON.parse(saved) : INITIAL_SPEAKERS;
   });
 
@@ -177,12 +176,12 @@ const App: React.FC = () => {
 
   // Save to local storage whenever data changes
   useEffect(() => {
-    // Force refresh if the data is outdated (checking for Durva Vahia's LinkedIn)
-    const isOutdated = !speakers.some(s => s.name === 'Durva Vahia' && s.link?.includes('72364988'));
+    // Force refresh if the data is outdated (checking for Tim Podlogar)
+    const isOutdated = !speakers.some(s => s.name === 'Prof. Tim Podlogar' && s.link?.includes('tpodlogar.com'));
     if (isOutdated) {
       setSpeakers(INITIAL_SPEAKERS);
     }
-    localStorage.setItem('speakers_v12', JSON.stringify(speakers));
+    localStorage.setItem('speakers_v15', JSON.stringify(speakers));
   }, [speakers]);
   useEffect(() => {
     localStorage.setItem('syllabus_v4', JSON.stringify(syllabus));
@@ -220,12 +219,6 @@ const App: React.FC = () => {
     setCurrentView('register');
   };
 
-  const navigateToDownload = (type: DocumentType) => {
-    setDownloadDocType(type);
-    window.scrollTo(0, 0);
-    setCurrentView('download');
-  };
-
   const navigateToHome = () => {
     window.scrollTo(0, 0);
     setCurrentView('landing');
@@ -248,7 +241,6 @@ const App: React.FC = () => {
       {currentView === 'landing' && (
         <LandingPage
           onRegister={navigateToRegister}
-          onDownload={navigateToDownload}
           theme={theme}
           toggleTheme={toggleTheme}
           speakers={speakers}
@@ -258,15 +250,6 @@ const App: React.FC = () => {
       {currentView === 'register' && (
         <RegistrationPage
           onCancel={navigateToHome}
-          theme={theme}
-          toggleTheme={toggleTheme}
-        />
-      )}
-      {currentView === 'download' && (
-        <DownloadPage
-          onCancel={navigateToHome}
-          onLeadSubmit={handleLeadSubmit}
-          documentType={downloadDocType}
           theme={theme}
           toggleTheme={toggleTheme}
         />

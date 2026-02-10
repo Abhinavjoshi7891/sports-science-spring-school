@@ -61,7 +61,7 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
               </div>
               <div>
                 <p className="text-white font-bold text-sm uppercase tracking-wide">Tuition Fees</p>
-                <p className="text-white/80 font-serif">INR 17,000 + 18% GST</p>
+                <p className="text-white/80 font-serif">INR 12,500 + 18% GST</p>
                 <p className="text-xs text-white/50 mt-0.5">Includes course materials & certification</p>
               </div>
             </div>
@@ -99,7 +99,7 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({ onCancel, theme, to
               {
                 step: '1',
                 title: 'Official Payment Portal',
-                desc: 'Click “Proceed to Payment” below to fill registration form and pay registration fees of INR 17,000 + 18% GST.'
+                desc: 'Click “Proceed to Payment” below to fill registration form and pay registration fees of INR 12,500 + 18% GST.'
               },
               {
                 step: '2',

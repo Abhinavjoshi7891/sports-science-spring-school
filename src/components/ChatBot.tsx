@@ -13,7 +13,7 @@ Tone: Formal, polite, helpful, and precise. Avoid slang. Use "Candidate" to refe
 Details:
 - Dates: March 2nd - 6th, 2026.
 - Location: IIT Delhi Main Campus.
-- Tuition: INR 17,000 + GST.
+- Tuition: INR 12,500 + GST.
 - Curriculum: Sports Technology, Machine Learning, Data Analytics in Sports.
 - Accommodation: On-campus Guest House available (additional charges apply).
 - Certification: Provided upon completion of the course.

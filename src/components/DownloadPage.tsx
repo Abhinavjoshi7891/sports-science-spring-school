@@ -45,7 +45,9 @@ const DownloadPage: React.FC<DownloadPageProps> = ({ onCancel, onLeadSubmit, doc
 
     // Trigger download of the actual file from the public folder
     setTimeout(() => {
-      const fileName = documentType === 'brochure' ? 'brochure.pdf' : 'syllabus.pdf';
+      const fileName = documentType === 'brochure'
+        ? 'Brochure - Spring School in Sports Technology, Machine Learning & Data Analytics 2026.pdf'
+        : 'Schedule - Spring School in Sports Technology, Machine Learning & Data Analytics 2026.pdf';
       const fileUrl = `/${fileName}`;
 
       const link = document.createElement('a');
@@ -60,7 +62,7 @@ const DownloadPage: React.FC<DownloadPageProps> = ({ onCancel, onLeadSubmit, doc
     }, 1500);
   };
 
-  const docTitle = documentType === 'brochure' ? 'Official Event Brochure' : 'Detailed Course Syllabus';
+  const docTitle = documentType === 'brochure' ? 'Official Event Brochure' : 'Official Event Schedule';
 
   return (
     <div className="flex-grow w-full h-screen flex flex-col lg:flex-row overflow-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-body transition-colors duration-300">
@@ -87,7 +89,7 @@ const DownloadPage: React.FC<DownloadPageProps> = ({ onCancel, onLeadSubmit, doc
               </span>
             </div>
             <h1 className="text-2xl lg:text-3xl font-display font-bold leading-tight mb-4 text-white">
-              Download {documentType === 'brochure' ? 'Brochure' : 'Syllabus'}
+              Download {documentType === 'brochure' ? 'Brochure' : 'Schedule'}
             </h1>
             <p className="text-white/70 text-base leading-relaxed font-serif">
               Please provide your details to receive the {docTitle} for the Spring School on Sports Science 2026.

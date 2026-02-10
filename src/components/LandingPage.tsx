@@ -14,10 +14,12 @@ import nokovLogo from '../assets/images/Nokov.motion_capture-3IkHo-Ez (1).png';
 import tecGihanLogo from '../assets/images/Tec_gihan_co.jpg';
 import delsysLogo from '../assets/images/Delsys Logo.png';
 import cadLogo from '../assets/images/cad engineering services .png';
+import aicLogo from '../assets/images/AIC Logo.png';
+import certificateImg from '../assets/images/certificate.png';
+import vo2MasterLogo from '../assets/images/VO2 Master.png';
 
 interface LandingPageProps {
     onRegister: () => void;
-    onDownload: (type: 'brochure' | 'syllabus') => void;
     theme: 'light' | 'dark';
     toggleTheme: () => void;
     speakers: Speaker[];
@@ -26,7 +28,6 @@ interface LandingPageProps {
 
 const LandingPage: React.FC<LandingPageProps> = ({
     onRegister,
-    onDownload,
     theme,
     toggleTheme,
     speakers,
@@ -146,6 +147,95 @@ const LandingPage: React.FC<LandingPageProps> = ({
         message: ''
     });
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+    const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+
+    const faqs = [
+        {
+            question: "What is the main objective of this Spring School?",
+            answer: "The Spring School aims to provide hands-on, real-world exposure to modern sports technology, machine learning, and data analytics used in elite sports performance, research, and athlete development, going far beyond classroom-based learning."
+        },
+        {
+            question: "Who should attend this programme?",
+            answer: "This programme is ideal for:",
+            bullets: [
+                "Sports coaches",
+                "Physiotherapists & rehabilitation professionals",
+                "Sports scientists & fitness professionals",
+                "Researchers, PhD scholars, and postgraduate students",
+                "Sports-tech entrepreneurs and industry professionals"
+            ]
+        },
+        {
+            question: "Do participants need prior knowledge of machine learning or coding?",
+            answer: "No. No prior coding or advanced ML knowledge is required. All concepts in data analytics and machine learning are introduced from the foundational level, with a strong focus on application in sports contexts, not abstract theory."
+        },
+        {
+            question: "What kind of hands-on experience will participants get?",
+            answer: "Participants will engage in guided, live demonstrations and practical sessions involving:",
+            bullets: [
+                "Motion capture & biomechanical modelling",
+                "Wireless EMG & neuromuscular assessment",
+                "Wearable sensor technologies",
+                "VR-based simulation and training",
+                "Sports data analytics and ML workflows using industry-grade systems"
+            ]
+        },
+        {
+            question: "Who are the faculty members teaching in this programme?",
+            answer: "The programme is taught by leading faculty and scientists from:",
+            bullets: [
+                "IIT Delhi",
+                "University of Exeter (UK)",
+                "Sports Authority of India (SAI)",
+                "Elite sports and research institutions practitioners"
+            ]
+        },
+        {
+            question: "What makes this Spring School different from regular sports science workshops?",
+            answer: "Unlike typical workshops, this Spring School:",
+            bullets: [
+                "Is fully in-person and immersive",
+                "Combines technology, physiology, psychology, AI, and VR",
+                "Uses real tools used in elite sports and research labs",
+                "Offers international academic and practitioner exposure"
+            ]
+        },
+        {
+            question: "Will participants receive a certificate?",
+            answer: "Yes. Participants who complete the programme will receive a certificate from leading institutions, including:",
+            bullets: [
+                "Indian Institute of Technology Delhi",
+                "University of Exeter",
+                "Sports Authority of India"
+            ]
+        },
+        {
+            question: "Are there opportunities for networking and professional interaction?",
+            answer: "Yes. The programme includes:",
+            bullets: [
+                "Dedicated academic interaction sessions",
+                "A networking dinner at IIT Delhi",
+                "Informal discussions with faculty, researchers, and practitioners"
+            ]
+        },
+        {
+            question: "Is the programme suitable for international or non-academic professionals?",
+            answer: "Absolutely. The Spring School is designed for both academic and industry professionals, including international participants, and focuses on practical relevance and real-world application rather than academic theory alone."
+        },
+        {
+            question: "Why are seats limited for this programme?",
+            answer: "Seats are limited to ensure:",
+            bullets: [
+                "High-quality hands-on experience",
+                "Small-group interaction during lab demonstrations",
+                "Direct access to faculty and technology systems"
+            ]
+        },
+        {
+            question: "What would be the medium of instruction for this Spring School?",
+            answer: "All the lectures, materials and demonstrations would be in English language only."
+        }
+    ];
 
     const handleContactSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -341,7 +431,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 <h1 className="text-white font-black leading-[1.1] tracking-tight text-[min(7vw,2.5rem)] mb-6 drop-shadow-lg">
                                     SPRING SCHOOL IN <br />
                                     SPORTS TECHNOLOGY, <br />
-                                    <span className="text-[#c5a059]">MACHINE LEARNING AND <br /> DATA ANALYTICS</span>
+                                    MACHINE LEARNING AND <br /> DATA ANALYTICS
                                 </h1>
                                 <p className="text-white/90 text-lg md:text-xl font-medium max-w-lg drop-shadow-md lg:block hidden">
                                     An intensive, in-person programme at IIT Delhi for researchers, practitioners, and students exploring the intersection of sports technology, machine learning, and data analytics.
@@ -417,11 +507,15 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                     <span className="material-symbols-outlined text-3xl">currency_rupee</span>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium opacity-80 uppercase tracking-wider">Programme Fees For Early Birds</p>
-                                    <div className="flex items-baseline gap-3">
-                                        <span className="text-lg opacity-50 line-through decoration-white/50 font-medium">₹20,000</span>
-                                        <p className="text-2xl font-bold font-display leading-none">₹17,000 + GST</p>
-                                        <p className="text-xs font-medium text-white/70">+ Accommodation charges (if required)</p>
+                                    <p className="text-sm font-medium opacity-80 uppercase tracking-wider">Programme Fees For Early Birds (ends 15th February)</p>
+                                    <div className="flex flex-col mt-1">
+                                        <div className="flex items-baseline gap-3">
+                                            <span className="text-lg opacity-50 line-through decoration-white/50 font-medium">₹20,000</span>
+                                            <p className="text-2xl font-bold font-display leading-none">₹12,500 + GST</p>
+                                        </div>
+                                        <p className="text-[10px] font-medium text-white/70 mt-1 uppercase tracking-tight">
+                                            + Accommodation charges (if required)
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -429,11 +523,11 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             {/* Schedule Button */}
                             <div className="w-full lg:w-auto mt-2 lg:mt-0">
                                 <a
-                                    href="/brochure.pdf"
-                                    download="brochure.pdf"
-                                    className="w-full lg:w-auto bg-white text-[#004494] hover:bg-slate-100 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition-colors whitespace-nowrap flex items-center justify-center gap-2"
+                                    href="/Brochure - Spring School in Sports Technology, Machine Learning & Data Analytics 2026.pdf"
+                                    download="Brochure - Spring School in Sports Technology, Machine Learning & Data Analytics 2026.pdf"
+                                    className="w-full lg:w-auto bg-white text-[#004494] hover:bg-slate-100 px-6 py-2.5 rounded-lg font-bold text-base shadow-lg transition-colors whitespace-nowrap flex items-center justify-center gap-2"
                                 >
-                                    <span className="material-symbols-outlined">download</span>
+                                    <span className="material-symbols-outlined text-xl">download</span>
                                     Download Brochure
                                 </a>
                             </div>
@@ -564,7 +658,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                                     }`}>
                                                     {speaker.name}
                                                 </h3>
-                                                <p className={`text-xs uppercase tracking-widest font-black mb-2 transition-opacity ${focusedSpeakerIdx === idx ? 'text-[#c5a059] opacity-100' : 'text-slate-400 opacity-60'
+                                                <p className={`text-xs tracking-widest font-black mb-2 transition-opacity ${focusedSpeakerIdx === idx ? 'text-[#c5a059] opacity-100' : 'text-slate-400 opacity-60'
                                                     }`}>
                                                     {speaker.org}
                                                 </p>
@@ -641,13 +735,11 @@ const LandingPage: React.FC<LandingPageProps> = ({
                                 style={certStyle}
                                 className="bg-white p-2 rounded shadow-2xl transition-transform duration-100 max-w-xs md:max-w-sm cursor-pointer"
                             >
-                                <div className="border-4 border-[#003366] p-6 text-center h-[240px] flex flex-col items-center justify-center bg-slate-50">
-                                    <span className="material-symbols-outlined text-6xl text-[#003366] mb-2">workspace_premium</span>
-                                    <div className="font-display font-bold text-[#003366] text-xl mb-1">CERTIFICATE</div>
-                                    <div className="text-[#003366] text-xs uppercase tracking-widest mb-4">of Completion</div>
-                                    <div className="w-16 h-1 bg-[#c5a059] mb-4"></div>
-                                    <div className="text-slate-400 text-[10px]">Authorized Signature</div>
-                                </div>
+                                <img
+                                    src={certificateImg}
+                                    alt="Spring School Certificate"
+                                    className="w-full h-auto object-contain border-4 border-[#003366] rounded-sm"
+                                />
                             </div>
                         </div>
                     </div>
@@ -661,11 +753,11 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             <p className="text-slate-500 dark:text-slate-400 mt-2">Spring Semester 2026 • 5-Day Intensive</p>
                         </div>
                         <a
-                            href="/brochure.pdf"
-                            download="brochure.pdf"
-                            className="text-[#003366] dark:text-blue-400 font-bold text-sm uppercase tracking-wider flex items-center gap-2 hover:underline"
+                            href="/Schedule - Spring School in Sports Technology, Machine Learning & Data Analytics 2026.pdf"
+                            download="Schedule - Spring School in Sports Technology, Machine Learning & Data Analytics 2026.pdf"
+                            className="bg-[#003366] hover:bg-[#002244] text-white px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-95"
                         >
-                            Download Brochure <span className="material-symbols-outlined text-lg">download</span>
+                            Download Schedule <span className="material-symbols-outlined text-base">download</span>
                         </a>
                     </div>
 
@@ -755,6 +847,26 @@ const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
                 </section>
 
+                {/* KNOWLEDGE PARTNER */}
+                <section className="max-w-7xl mx-auto px-4 text-center pb-12">
+                    <h2 className="text-2xl font-bold text-primary dark:text-white mb-8 uppercase tracking-wide">Knowledge Partner</h2>
+                    <div className="flex justify-center items-center">
+                        <a
+                            href="https://www.aic-iitd.in"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group relative block transition-transform hover:scale-110 duration-300"
+                        >
+                            <div className="absolute inset-0 bg-white/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <img
+                                src={aicLogo}
+                                alt="AIC IIT Delhi"
+                                className="h-32 md:h-48 w-auto object-contain relative z-10 drop-shadow-sm group-hover:drop-shadow-xl transition-all duration-300"
+                            />
+                        </a>
+                    </div>
+                </section>
+
                 {/* SPONSORS */}
                 <section className="max-w-7xl mx-auto px-4 text-center pb-20">
                     <h2 className="text-2xl font-bold text-primary dark:text-white mb-12 uppercase tracking-wide">Tech Demonstration and Sponsors</h2>
@@ -765,7 +877,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             rel="noopener noreferrer"
                             className="group/logo transition-all duration-500 hover:-translate-y-4 hover:scale-110"
                         >
-                            <img src={nokovLogo} alt="Nokov" className="h-12 md:h-16 w-auto object-contain transition-all duration-500" />
+                            <img src={nokovLogo} alt="Nokov" className="h-20 md:h-28 w-auto object-contain transition-all duration-500" />
                         </a>
                         <a
                             href="https://tecgihan.co.jp/en/"
@@ -773,7 +885,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             rel="noopener noreferrer"
                             className="group/logo transition-all duration-500 hover:-translate-y-4 hover:scale-110"
                         >
-                            <img src={tecGihanLogo} alt="Tec Gihan" className="h-12 md:h-16 w-auto object-contain transition-all duration-500" />
+                            <img src={tecGihanLogo} alt="Tec Gihan" className="h-20 md:h-28 w-auto object-contain transition-all duration-500" />
                         </a>
                         <a
                             href="https://delsys.com"
@@ -781,7 +893,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             rel="noopener noreferrer"
                             className="group/logo transition-all duration-500 hover:-translate-y-4 hover:scale-110"
                         >
-                            <img src={delsysLogo} alt="Delsys" className="h-12 md:h-16 w-auto object-contain transition-all duration-500" />
+                            <img src={delsysLogo} alt="Delsys" className="h-20 md:h-28 w-auto object-contain transition-all duration-500" />
                         </a>
                         <a
                             href="https://www.cadengineering.co.in"
@@ -789,8 +901,72 @@ const LandingPage: React.FC<LandingPageProps> = ({
                             rel="noopener noreferrer"
                             className="group/logo transition-all duration-500 hover:-translate-y-4 hover:scale-110"
                         >
-                            <img src={cadLogo} alt="CAD Engineering Services" className="h-12 md:h-16 w-auto object-contain transition-all duration-500" />
+                            <img src={cadLogo} alt="CAD Engineering Services" className="h-20 md:h-28 w-auto object-contain transition-all duration-500" />
                         </a>
+                        <a
+                            href="https://vo2master.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/logo transition-all duration-500 hover:-translate-y-4 hover:scale-110"
+                        >
+                            <img src={vo2MasterLogo} alt="VO2 Master" className="h-20 md:h-28 w-auto object-contain transition-all duration-500" />
+                        </a>
+                    </div>
+                </section>
+
+                {/* FAQ SECTION */}
+                <section className="bg-slate-50 dark:bg-[#111] py-20 border-y border-slate-200 dark:border-slate-800">
+                    <div className="max-w-4xl mx-auto px-4">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-4xl font-black text-[#003366] dark:text-white mb-4 tracking-tight">FAQs</h2>
+                            <p className="text-lg text-slate-500 dark:text-slate-400 font-medium font-display">Spring School in Sports Technology, ML & Data Analytics 2026</p>
+                        </div>
+
+                        <div className="space-y-4">
+                            {faqs.map((faq, idx) => (
+                                <div
+                                    key={idx}
+                                    className={`bg-white dark:bg-surface-dark border rounded-2xl overflow-hidden transition-all duration-500 ease-out ${openFaqIdx === idx
+                                        ? 'border-[#003366] dark:border-blue-400 shadow-2xl -translate-y-2 scale-[1.02] z-10 relative'
+                                        : 'border-slate-200 dark:border-slate-800 shadow-sm hover:border-slate-300 dark:hover:border-slate-700 hover:-translate-y-1 hover:shadow-xl hover:scale-[1.01]'
+                                        }`}
+                                >
+                                    <button
+                                        onClick={() => setOpenFaqIdx(openFaqIdx === idx ? null : idx)}
+                                        className="w-full flex items-center justify-between p-6 text-left focus:outline-none"
+                                    >
+                                        <h3 className={`text-lg font-bold leading-tight transition-colors duration-300 ${openFaqIdx === idx ? 'text-[#003366] dark:text-blue-400' : 'text-slate-700 dark:text-slate-200'}`}>
+                                            {faq.question}
+                                        </h3>
+                                        <span className={`material-symbols-outlined transition-transform duration-300 ${openFaqIdx === idx ? 'rotate-180 text-[#003366] dark:text-blue-400' : 'text-slate-400'}`}>
+                                            expand_more
+                                        </span>
+                                    </button>
+
+                                    <div
+                                        className={`transition-all duration-300 ease-in-out ${openFaqIdx === idx
+                                            ? 'max-h-[800px] opacity-100'
+                                            : 'max-h-0 opacity-0'
+                                            }`}
+                                    >
+                                        <div className="p-8 pb-10 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-50 dark:border-white/5">
+                                            <p className="font-medium text-slate-800 dark:text-slate-200 mb-4">{faq.answer}</p>
+
+                                            {faq.bullets && (
+                                                <ul className="space-y-3 mt-4">
+                                                    {faq.bullets.map((bullet, i) => (
+                                                        <li key={i} className="flex items-start gap-3">
+                                                            <span className="w-1.5 h-1.5 rounded-full bg-[#003366] dark:bg-blue-400 mt-2.5 shrink-0"></span>
+                                                            <span className="text-sm md:text-base">{bullet}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </section>
 
